@@ -16,12 +16,6 @@
 #include "headers/linkedlist.h"
 
 int main() {
- 
-  // remover codigo estacao integra funcionalidade 4
-	
-  createFileBIN("estacoes.csv", "estacoes.bin");
-  // printFileBIN("estacoes.bin");
-  // deleteDataTable("estacao15.bin", 3);
-  // printFileBIN("estacoes.bin");
+  cmdSelector();
 }
 

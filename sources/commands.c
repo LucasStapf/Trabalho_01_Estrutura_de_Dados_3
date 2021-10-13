@@ -14,6 +14,7 @@
 #include "../headers/linkedlist.h"
 #include "../headers/constants.h"
 #include "../headers/commands.h"
+#include "../headers/registers.h"
 
 int cmdSelector() {
 
@@ -89,18 +90,6 @@ int selectDataTable(char *inputfilename) {
   return 0;
 }
 
-void fillDataRegister(DataRegister *dr, char *field, char *value) {
-
-  if(strcmp("codEstacao", field) == 0) dr->codEstacao = atoi(value);
-  else if(strcmp("codLinha", field) == 0) dr->codLinha = atoi(value);
-  else if(strcmp("codProxEstacao", field) == 0) dr->codProxEstacao = atoi(value);
-	else if(strcmp("distProxEstacao", field) == 0) dr->distProxEstacao = atoi(value);
-	else if(strcmp("codLinhaIntegra", field) == 0) dr->codLinhaIntegra = atoi(value);
-	else if(strcmp("codEstIntegra", field) == 0) dr->codEstIntegra = atoi(value);
-	else if(strcmp("nomeEstacao", field) == 0) strcpy(dr->nomeEstacao, value);
-	else if(strcmp("nomeLinha", field) == 0) strcpy(dr->nomeLinha, value);
-}
-
 
 int selectDataWhereTable(char *inputfilename, int number) {
 
@@ -112,14 +101,15 @@ int selectDataWhereTable(char *inputfilename, int number) {
   
   for(int i = 0; i < number; i++) {
     
-    dr.codEstacao = EMPTY_FIELD_INTEGER;
-    dr.codLinha = EMPTY_FIELD_INTEGER;
-    dr.codProxEstacao = EMPTY_FIELD_INTEGER;
-    dr.distProxEstacao = EMPTY_FIELD_INTEGER;
-    dr.codLinhaIntegra = EMPTY_FIELD_INTEGER;
-    dr.codEstIntegra = EMPTY_FIELD_INTEGER;
-    dr.nomeEstacao[0] = EMPTY_FIELD_STRING;
-    dr.nomeLinha[0] = EMPTY_FIELD_STRING;
+    setEmptyDataRegister(&dr);
+    // dr.codEstacao = EMPTY_FIELD_INTEGER;
+    // dr.codLinha = EMPTY_FIELD_INTEGER;
+    // dr.codProxEstacao = EMPTY_FIELD_INTEGER;
+    // dr.distProxEstacao = EMPTY_FIELD_INTEGER;
+    // dr.codLinhaIntegra = EMPTY_FIELD_INTEGER;
+    // dr.codEstIntegra = EMPTY_FIELD_INTEGER;
+    // dr.nomeEstacao[0] = EMPTY_FIELD_STRING;
+    // dr.nomeLinha[0] = EMPTY_FIELD_STRING;
 
     fgets(str, MAX_SIZE_STR, stdin);
     str[strlen(str) - 1] = '\0';
@@ -130,8 +120,8 @@ int selectDataWhereTable(char *inputfilename, int number) {
     p = strtok_custom(NULL, ' ');
     strcpy(fieldValue, p);
 
-    fillDataRegister(&dr, fieldName, fieldValue);
-    findRegistersBIN(f, &dr);
+    fillFieldDataRegister(&dr, fieldName, fieldValue);
+    findDataRegistersBIN(f, &dr);
   }
 
   fclose(f);
@@ -150,14 +140,15 @@ int deleteDataTable(char *inputfilename, int number) {
   
   for(int i = 0; i < number; i++) {
     
-    dr.codEstacao = EMPTY_FIELD_INTEGER;
-    dr.codLinha = EMPTY_FIELD_INTEGER;
-    dr.codProxEstacao = EMPTY_FIELD_INTEGER;
-    dr.distProxEstacao = EMPTY_FIELD_INTEGER;
-    dr.codLinhaIntegra = EMPTY_FIELD_INTEGER;
-    dr.codEstIntegra = EMPTY_FIELD_INTEGER;
-    dr.nomeEstacao[0] = EMPTY_FIELD_STRING;
-    dr.nomeLinha[0] = EMPTY_FIELD_STRING;
+    setEmptyDataRegister(&dr);
+    // dr.codEstacao = EMPTY_FIELD_INTEGER;
+    // dr.codLinha = EMPTY_FIELD_INTEGER;
+    // dr.codProxEstacao = EMPTY_FIELD_INTEGER;
+    // dr.distProxEstacao = EMPTY_FIELD_INTEGER;
+    // dr.codLinhaIntegra = EMPTY_FIELD_INTEGER;
+    // dr.codEstIntegra = EMPTY_FIELD_INTEGER;
+    // dr.nomeEstacao[0] = EMPTY_FIELD_STRING;
+    // dr.nomeLinha[0] = EMPTY_FIELD_STRING;
 
     fgets(str, MAX_SIZE_STR, stdin);
     str[strlen(str) - 1] = '\0';
@@ -173,10 +164,10 @@ int deleteDataTable(char *inputfilename, int number) {
       p = strtok_custom(NULL, ' ');
       strcpy(fieldValue, p);
 
-      fillDataRegister(&dr, fieldName, fieldValue);
+      fillFieldDataRegister(&dr, fieldName, fieldValue);
     }
     
-    deleteRegisterBIN(f, &dr);
+    deleteDataRegisterBIN(f, &dr);
   }
 
   fclose(f);

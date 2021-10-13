@@ -13,6 +13,8 @@
 #include <string.h>
 #include "../headers/binmanager.h"
 #include "../headers/constants.h"
+#include "../headers/registers.h"
+
 
 /**
   - Function: jumpHeaderCSV
