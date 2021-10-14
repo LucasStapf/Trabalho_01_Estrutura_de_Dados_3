@@ -14,6 +14,7 @@
 #include "../headers/constants.h"
 
 
+
 void createLinkedList(linkedlist *l) {
   l->size = 0;
   l->head = NULL;
@@ -200,7 +201,8 @@ void printStringLinkedList(linkedlist l) {
 }
 
 void printParEstacoesLinkedList(linkedlist l) {
-	node *aux = l.head;
+	
+  node *aux = l.head;
   int *v;
 	while(aux != NULL) {
     v = aux->data;

@@ -20,7 +20,7 @@
   - Note: O tamanho retornado nao eh o real tamanho do DataRegister em si, uma vez que a funcao contabiliza a presenca do pipe '|' no fim das strings, mesmo que no DataRegister em si nao tenha o pipe.
   - Parameters: 
     - dr: struct DataRegister
-  - Returns: retorna o tamanho do registro no arquivo binario 
+  - Returns: Retorna o tamanho do registro no arquivo binario.
 */
 int sizeOfRegister(DataRegister dr) {
   
@@ -77,8 +77,7 @@ int compareRegister(DataRegister dr1, DataRegister dr2) {
 
 /**
   - Function: setEmptyDataRegister
-  - Description: Esta funcao inicializa todos os campos do DataRegister passado com valores vazios (EMPTY_FIELD_INTEGER ou EMPTY_FIELD_STRING)
-  - Note: Campos NULOS (NULL_FIELD_INTEGER ou NULL_FIELD_STRING) serao exibidos como 'NULO'
+  - Description: Esta funcao inicializa todos os campos do DataRegister passado com valores vazios (EMPTY_FIELD_INTEGER ou EMPTY_FIELD_STRING).
   - Parameters: 
     - dr: Registro que tera seus campos atualizados para vazio.
 */
@@ -123,9 +122,9 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
   - Function: printRegister
   - Description: Esta funcao imprime um registro na tela, com os campos sendo exibidos na seguinte ordem:
   - codEstacao | nomeEstacao | codLinha | nomeLinha | codProxEstacao | distProxEstacao | codLinhaIntegra | codEstIntegra
-  - Note: Campos NULOS (NULL_FIELD_INTEGER ou NULL_FIELD_STRING) serao exibidos como 'NULO'
+  - Note: Campos NULOS (NULL_FIELD_INTEGER ou NULL_FIELD_STRING) serao exibidos como 'NULO'.
   - Parameters: 
-    - dr: registro a ser exibido
+    - dr: Registro a ser exibido.
 */
 void printRegister(DataRegister dr) {
 
