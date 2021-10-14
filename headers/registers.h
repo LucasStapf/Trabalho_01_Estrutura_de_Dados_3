@@ -15,7 +15,7 @@
 typedef struct {
 	
 	char status;
-	long topoDaLista;
+	LONG_8 topoDaLista;
 	int nroEstacoes;
 	int nroParesEstacao;
 
@@ -26,7 +26,7 @@ typedef struct {
 	
 	char removido;
 	int tamanhoRegistro;
-	long proxLista;
+	LONG_8 proxLista;
 	int codEstacao;
 	int codLinha;
 	int codProxEstacao;
