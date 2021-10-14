@@ -24,9 +24,9 @@
 */
 int sizeOfRegister(DataRegister dr) {
   
-  int size = (1 + 2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(char); // + 2: contabilizando o pipe '|'
-  size += (7 * sizeof(int));
-	size += sizeof(long);
+  int size = (1 + 2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(dr.removido); // + 2: contabilizando o pipe '|'
+  size += (7 * sizeof(dr.tamanhoRegistro));
+	size += sizeof(LONG_8);
 
   return size;
 }

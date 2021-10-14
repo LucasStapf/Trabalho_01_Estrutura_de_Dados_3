@@ -48,6 +48,7 @@ void readFieldCSV(FILE *f, char *str) {
   if(c == ',' || c == '\r' || c == '\n' || feof(f)) {
     
     str[0] = '\0';
+    if(c == '\r') fgetc(f); // ler o \n e ir para proxima linha.
     return;
   }
 
@@ -108,7 +109,7 @@ void readLineCSV(FILE *f, DataRegister *dr) {
   dr->proxLista = -1;
   dr->tamanhoRegistro = sizeOfRegister(*dr);
 
-  char c;
-  c = fgetc(f);
-  while(c != '\n' && !feof(f)) c = fgetc(f);
+  // char c;
+  // c = fgetc(f);
+  // while(c != '\n' && !feof(f)) c = fgetc(f);
 }

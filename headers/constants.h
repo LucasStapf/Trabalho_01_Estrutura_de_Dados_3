@@ -10,6 +10,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#define LONG_8 long long
+
 #define TRUE  0
 #define FALSE 1
 

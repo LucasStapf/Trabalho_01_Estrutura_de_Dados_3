@@ -11,9 +11,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "headers/commands.h"
-#include "headers/binmanager.h"
-#include "headers/linkedlist.h"
+#include "../headers/commands.h"
+#include "../headers/binmanager.h"
+#include "../headers/linkedlist.h"
+#include "../headers/constants.h"
 
 int main() {
   cmdSelector();

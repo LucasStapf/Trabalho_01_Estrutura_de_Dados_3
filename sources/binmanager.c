@@ -333,16 +333,16 @@ void createFileBIN(char *csvName, char *binName) {
 
   fseek(fout, SEEK_NRO_ESTACOES, SEEK_SET);
   hr.nroEstacoes = nomesEstacoes.size;
-  fwrite(&hr.nroEstacoes, sizeof(int), 1, fout);
+  fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, fout);
 	deleteLinkedList(&nomesEstacoes);
 
   hr.nroParesEstacao = paresDistintosEstacoes.size;
-  fwrite(&hr.nroParesEstacao, sizeof(int), 1, fout);
+  fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, fout);
 	deleteLinkedList(&paresDistintosEstacoes);
 
   fseek(fout, SEEK_STATUS, SEEK_SET);
   hr.status = '1';
-  fwrite(&hr.status, sizeof(char), 1, fout);
+  fwrite(&hr.status, sizeof(hr.status), 1, fout);
 
   fclose(fin);
   fclose(fout);
