@@ -195,7 +195,7 @@ void printStringLinkedList(linkedlist l) {
   
   node *aux = l.head;
   while(aux != NULL) {
-    printf("%s\n", aux->data);
+    printf("%s\n", (char*) aux->data);
     aux = aux->next;
   }
 }

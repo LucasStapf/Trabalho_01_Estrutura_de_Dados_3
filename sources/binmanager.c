@@ -388,5 +388,5 @@ void printHeaderBIN(FILE *f) {
 	fread(&rc.topoDaLista, sizeof(rc.topoDaLista), 1, f);
 	fread(&rc.nroEstacoes, sizeof(rc.nroEstacoes), 1, f);
 	fread(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
-	printf("%c %ld %d %d\n", rc.status, rc.topoDaLista, rc.nroEstacoes, rc.nroParesEstacao);
+	printf("%c %lld %d %d\n", rc.status, rc.topoDaLista, rc.nroEstacoes, rc.nroParesEstacao);
 }

@@ -16,6 +16,7 @@
 #include "../headers/registers.h"
 
 
+
 /**
   - Function: jumpHeaderCSV
   - Description: Esta funcao ignora o cabecalho de dados e posiciona a leitura do arquivo para a primeira linha de dados (se houver).
@@ -27,6 +28,8 @@ void jumpHeaderCSV(FILE *f) {
   char c = fgetc(f);
 	while(c != '\n') c = fgetc(f);
 }
+
+
 
 /**
   - Function: readFieldCSV
@@ -46,9 +49,8 @@ void readFieldCSV(FILE *f, char *str) {
   c = fgetc(f);
 
   if(c == ',' || c == '\r' || c == '\n' || feof(f)) {
-    
     str[0] = '\0';
-    if(c == '\r') fgetc(f); // ler o \n e ir para proxima linha.
+    if(c == '\r') c = fgetc(f); // ler o \n e ir para proxima linha.
     return;
   }
 
@@ -61,7 +63,10 @@ void readFieldCSV(FILE *f, char *str) {
   }
 
   str[i] = '\0';
+  if(c == '\r') c = fgetc(f); // ler o \n e ir para proxima linha.
 }
+
+
 
 /**
   - Function: readLineCSV
@@ -108,8 +113,4 @@ void readLineCSV(FILE *f, DataRegister *dr) {
   dr->removido = '0';
   dr->proxLista = -1;
   dr->tamanhoRegistro = sizeOfRegister(*dr);
-
-  // char c;
-  // c = fgetc(f);
-  // while(c != '\n' && !feof(f)) c = fgetc(f);
 }
