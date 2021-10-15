@@ -20,3 +20,6 @@ int main()
 {
   cmdSelector();
 }
+
+
+// problema: mandar remover um campo inexistente

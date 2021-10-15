@@ -202,48 +202,42 @@ int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
   hr.status = '0';
   writeHeaderRegisterBIN(f, &hr);
 
+  fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
+
   // fwrite(&hr.status, sizeof(hr.status), 1, f);
   // fread(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
   // fread(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
   // fread(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
 
   DataRegister r;
-  
-  int ret;
 
   linkedlist nomesEstacoesRemovidas;
   createLinkedList(&nomesEstacoesRemovidas);
 	
-  linkedlist codigosEstacoesRemovidas;
-  createLinkedList(&codigosEstacoesRemovidas);
-
+  linkedlist paresEstacoes;
+	createLinkedList(&paresEstacoes);
+	
+	int ret;
   do {
-
+		
+    // LONG_8 byte = ftell(f);
     ret = readDataRegisterBIN(f, &r);
     if(ret == REMOVED) continue;
-    else {
+    else { // estacao nao removida
 			
       if(compareRegister(*dr, r) == EQUIVALENT_REGISTERS) {
         
         addStringLinkedList(&nomesEstacoesRemovidas, r.nomeEstacao);
-        
-        int *codEstacao = malloc(sizeof(int));
-				if (codEstacao == NULL) return 1;
 				
-				*codEstacao = r.codEstacao;
-        addElementLinkedList(&codigosEstacoesRemovidas, codEstacao);
-
-        fseek(f, - (r.tamanhoRegistro + sizeof(r.removido) + sizeof(r.tamanhoRegistro)), SEEK_CUR); // volta para o byteoffset do registro lido
+        fseek(f, -(r.tamanhoRegistro + sizeof(r.removido) + sizeof(r.tamanhoRegistro)), SEEK_CUR); // volta para o byteoffset do registro lido
 			
         r.removido = '1';
         r.proxLista = hr.topoDaLista;
         hr.topoDaLista = ftell(f); // byte offset do registro removido
 
         writeDataRegisterBIN(f, &r);
-        
-        if(r.codProxEstacao != -1) hr.nroParesEstacao--;
-      }
 
+      } else addParEstacoesLinkedList(&paresEstacoes, r.codEstacao,r.codProxEstacao);
     }
   } while (ret != END_OF_FILE_BIN);
 
@@ -267,22 +261,27 @@ int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   // } while (ret != END_OF_FILE_BIN);
 
-  fseek(f, SEEK_TOPO_LISTA, SEEK_SET);
-  fwrite(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
-
   hr.nroEstacoes -= nomesEstacoesRemovidas.size;
-  fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
+  hr.nroParesEstacao = paresEstacoes.size;
+  hr.status = '1';
 
-  fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
+  writeHeaderRegisterBIN(f, &hr);
+
+  // fseek(f, SEEK_TOPO_LISTA, SEEK_SET);
+  // fwrite(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
+
+  // fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
+
+  // fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
   
-	hr.status = '1';
-  fseek(f, SEEK_STATUS, SEEK_SET);
-  fwrite(&hr.status, sizeof(hr.status), 1, f);
+	// hr.status = '1';
+  // fseek(f, SEEK_STATUS, SEEK_SET);
+  // fwrite(&hr.status, sizeof(hr.status), 1, f);
 
   deleteLinkedList(&nomesEstacoesRemovidas);
-  deleteLinkedList(&codigosEstacoesRemovidas);
+  deleteLinkedList(&paresEstacoes);
 
-	printHeaderBIN(f);
+	// printHeaderBIN(f);
   
   return 1;
 }

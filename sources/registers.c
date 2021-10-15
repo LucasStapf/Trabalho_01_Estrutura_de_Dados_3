@@ -20,11 +20,10 @@
     - dr: struct DataRegister
   - Returns: Retorna o tamanho do registro no arquivo binario.
 */
-int sizeOfRegister(DataRegister dr)
-{
+int sizeOfRegister(DataRegister dr) {
 
-  int size = (1 + 2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(dr.removido); // + 2: contabilizando o pipe '|'
-  size += (7 * sizeof(dr.tamanhoRegistro));
+  int size = (2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(char); // + 2: contabilizando o pipe '|'
+  size += (6 * sizeof(int));
   size += sizeof(LONG_8);
 
   return size;
@@ -38,8 +37,7 @@ int sizeOfRegister(DataRegister dr)
     - dr2: registro 2
   - Returns: Retorna DIFFERENT_REGISTERS caso os registros sejam nao-equivalentes, e EQUIVALENT_REGISTERS caso contrario.
 */
-int compareRegister(DataRegister dr1, DataRegister dr2)
-{
+int compareRegister(DataRegister dr1, DataRegister dr2) {
 
   if (dr1.codEstacao != EMPTY_FIELD_INTEGER && dr2.codEstacao != EMPTY_FIELD_INTEGER && dr1.codEstacao != dr2.codEstacao)
     return DIFFERENT_REGISTERS;
@@ -77,8 +75,7 @@ int compareRegister(DataRegister dr1, DataRegister dr2)
   - Parameters: 
     - dr: Registro que tera seus campos atualizados para vazio.
 */
-void setEmptyDataRegister(DataRegister *dr)
-{
+void setEmptyDataRegister(DataRegister *dr) {
 
   dr->codEstacao = EMPTY_FIELD_INTEGER;
   dr->codLinha = EMPTY_FIELD_INTEGER;
@@ -99,8 +96,7 @@ void setEmptyDataRegister(DataRegister *dr)
     - field: Nome do campo a ser atualizado.
     - value: Valor do campo.
 */
-void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
-{
+void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
 
   if (strcmp("codEstacao", field) == 0)
     dr->codEstacao = atoi(value);
@@ -128,8 +124,7 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
   - Parameters: 
     - dr: Registro a ser exibido.
 */
-void printRegister(DataRegister dr)
-{
+void printRegister(DataRegister dr) {
 
   printf("%d ", dr.codEstacao);  //
   printf("%s ", dr.nomeEstacao); //
