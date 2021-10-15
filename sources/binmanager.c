@@ -105,8 +105,8 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr) {
 	fread(&dr->tamanhoRegistro, sizeof(dr->tamanhoRegistro), 1, f);
 
   if(dr->removido == '1') { // logicamente removido
-    long byteOffsetNextReg = dr->tamanhoRegistro - sizeof(dr->tamanhoRegistro) - sizeof(dr->removido);
-    fseek(f, byteOffsetNextReg, SEEK_CUR);
+    // LONG_8 byteOffsetNextReg = dr->tamanhoRegistro - sizeof(dr->tamanhoRegistro) - sizeof(dr->removido);
+    fseek(f, dr->tamanhoRegistro, SEEK_CUR);
     return REMOVED;
   }
   
@@ -196,13 +196,16 @@ int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
   
   fseek(f, SEEK_STATUS, SEEK_SET);
 
-  HeaderRegister rc;
-  rc.status = '0';
+  HeaderRegister hr;
 
-  fwrite(&rc.status, sizeof(rc.status), 1, f);
-  fread(&rc.topoDaLista, sizeof(rc.topoDaLista), 1, f);
-  fread(&rc.nroEstacoes, sizeof(rc.nroEstacoes), 1, f);
-  fread(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
+  readHeaderRegisterBIN(f, &hr);
+  hr.status = '0';
+  writeHeaderRegisterBIN(f, &hr);
+
+  // fwrite(&hr.status, sizeof(hr.status), 1, f);
+  // fread(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
+  // fread(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
+  // fread(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
 
   DataRegister r;
   
@@ -230,51 +233,51 @@ int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
 				*codEstacao = r.codEstacao;
         addElementLinkedList(&codigosEstacoesRemovidas, codEstacao);
 
-        fseek(f, - r.tamanhoRegistro, SEEK_CUR); // volta para o byteoffset do registro lido
+        fseek(f, - (r.tamanhoRegistro + sizeof(r.removido) + sizeof(r.tamanhoRegistro)), SEEK_CUR); // volta para o byteoffset do registro lido
 			
         r.removido = '1';
-        r.proxLista = rc.topoDaLista;
-        rc.topoDaLista = ftell(f); // byte offset do registro removido
+        r.proxLista = hr.topoDaLista;
+        hr.topoDaLista = ftell(f); // byte offset do registro removido
 
         writeDataRegisterBIN(f, &r);
         
-        if(r.codProxEstacao != -1) rc.nroParesEstacao--;
+        if(r.codProxEstacao != -1) hr.nroParesEstacao--;
       }
 
     }
   } while (ret != END_OF_FILE_BIN);
 
-  fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
+  // fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
 
-  do {
+  // do {
 
-    ret = readDataRegisterBIN(f, &r);
-    if(ret == REMOVED) continue;
-    else {
+  //   ret = readDataRegisterBIN(f, &r);
+  //   if(ret == REMOVED) continue;
+  //   else {
 
-      if(hasIntegerElementLinkedList(&codigosEstacoesRemovidas, r.codProxEstacao) == TRUE) {
+  //     if(hasIntegerElementLinkedList(&codigosEstacoesRemovidas, r.codProxEstacao) == TRUE) {
         
-        r.codProxEstacao = NULL_FIELD_INTEGER;
-        r.distProxEstacao = NULL_FIELD_INTEGER;
-        fseek(f, -r.tamanhoRegistro, SEEK_CUR);
-        writeDataRegisterBIN(f, &r);
-        rc.nroParesEstacao--;
-      }
-    }
+  //       r.codProxEstacao = NULL_FIELD_INTEGER;
+  //       r.distProxEstacao = NULL_FIELD_INTEGER;
+  //       fseek(f, -r.tamanhoRegistro, SEEK_CUR);
+  //       writeDataRegisterBIN(f, &r);
+  //       hr.nroParesEstacao--;
+  //     }
+  //   }
 
-  } while (ret != END_OF_FILE_BIN);
+  // } while (ret != END_OF_FILE_BIN);
 
   fseek(f, SEEK_TOPO_LISTA, SEEK_SET);
-  fwrite(&rc.topoDaLista, sizeof(rc.topoDaLista), 1, f);
+  fwrite(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
 
-  rc.nroEstacoes -= nomesEstacoesRemovidas.size;
-  fwrite(&rc.nroEstacoes, sizeof(rc.nroEstacoes), 1, f);
+  hr.nroEstacoes -= nomesEstacoesRemovidas.size;
+  fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
 
-  fwrite(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
+  fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
   
-	rc.status = '1';
+	hr.status = '1';
   fseek(f, SEEK_STATUS, SEEK_SET);
-  fwrite(&rc.status, sizeof(rc.status), 1, f);
+  fwrite(&hr.status, sizeof(hr.status), 1, f);
 
   deleteLinkedList(&nomesEstacoesRemovidas);
   deleteLinkedList(&codigosEstacoesRemovidas);
@@ -390,3 +393,8 @@ void printHeaderBIN(FILE *f) {
 	fread(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
 	printf("%c %lld %d %d\n", rc.status, rc.topoDaLista, rc.nroEstacoes, rc.nroParesEstacao);
 }
+
+// .....
+// aaaaaaaa 1 2 -> n add
+// sdfsgsdg 3 4 -> add
+// aaaaaaaa 1 2 -> n add

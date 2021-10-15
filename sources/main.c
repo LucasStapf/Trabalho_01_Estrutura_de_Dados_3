@@ -16,7 +16,7 @@
 #include "../headers/linkedlist.h"
 #include "../headers/constants.h"
 
-int main() {
+int main()
+{
   cmdSelector();
 }
-
