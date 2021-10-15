@@ -13,19 +13,20 @@
 #include "../headers/linkedlist.h"
 #include "../headers/constants.h"
 
-
-
-void createLinkedList(linkedlist *l) {
+void createLinkedList(linkedlist *l)
+{
   l->size = 0;
   l->head = NULL;
   l->currentnode = NULL;
 }
 
-void deleteLinkedList(linkedlist *l) {
+void deleteLinkedList(linkedlist *l)
+{
 
   node *n = l->head;
 
-  while(n != NULL) {
+  while (n != NULL)
+  {
     l->head = l->head->next;
     free(n->data);
     free(n);
@@ -33,60 +34,76 @@ void deleteLinkedList(linkedlist *l) {
   }
 }
 
-int addElementLinkedList(linkedlist *l, void *data) {
-  
-  if(l == NULL || data == NULL) return 0;
+int addElementLinkedList(linkedlist *l, void *data)
+{
+
+  if (l == NULL || data == NULL)
+    return 0;
 
   node *n = malloc(sizeof(node));
-  if(n == NULL) return 0;
+  if (n == NULL)
+    return 0;
 
   n->data = data;
   n->next = NULL;
 
-  if(l->head == NULL) { // Lista vazia
+  if (l->head == NULL)
+  { // Lista vazia
 
     l->head = n;
     l->currentnode = n;
     l->size++;
 
     return 1;
+  }
+  else
+  {
 
-  } else {
-
-		node *aux = l->head;
-		while (aux->next != NULL) aux = aux->next;
-		aux->next = n;
+    node *aux = l->head;
+    while (aux->next != NULL)
+      aux = aux->next;
+    aux->next = n;
     l->size++;
 
     return 1;
   }
 }
 
-void* getNextElementLinkedList(linkedlist *l) {
+void *getNextElementLinkedList(linkedlist *l)
+{
 
   node *n = l->currentnode;
-  if(hasNextElementLinkedList(l)) l->currentnode = l->currentnode->next;
+  if (hasNextElementLinkedList(l))
+    l->currentnode = l->currentnode->next;
   return (n == NULL) ? NULL : n->data;
 }
 
-int hasNextElementLinkedList(linkedlist *l) {
+int hasNextElementLinkedList(linkedlist *l)
+{
 
-  if(l->currentnode == NULL) return 0;
-  else if(l->currentnode->next == NULL) return 0;
-  else return 1;
+  if (l->currentnode == NULL)
+    return 0;
+  else if (l->currentnode->next == NULL)
+    return 0;
+  else
+    return 1;
 }
 
 // adiciona somente strings diferentes
-void addStringLinkedList(linkedlist *l, char *str) {
+void addStringLinkedList(linkedlist *l, char *str)
+{
 
-	if(l == NULL || str == NULL) return;
+  if (l == NULL || str == NULL)
+    return;
 
-	node *n = (node*) malloc(sizeof(node));
-  if(n == NULL) return;
+  node *n = (node *)malloc(sizeof(node));
+  if (n == NULL)
+    return;
 
   n->data = malloc(sizeof(char) * MAX_SIZE_STR);
-	
-  if (n->data == NULL) {
+
+  if (n->data == NULL)
+  {
     free(n);
     return;
   }
@@ -94,119 +111,141 @@ void addStringLinkedList(linkedlist *l, char *str) {
   n->next = NULL;
   strcpy(n->data, str);
 
-  if(l->head == NULL) { // Lista vazia
+  if (l->head == NULL)
+  { // Lista vazia
 
     l->head = n;
     l->currentnode = n;
     l->size++;
     return;
-
-  } else {
+  }
+  else
+  {
 
     node *aux = l->head;
-    
-    while(aux != NULL) {
-      if(strcmp(aux->data, str) == 0) {
-        
+
+    while (aux != NULL)
+    {
+      if (strcmp(aux->data, str) == 0)
+      {
+
         free(n->data);
         free(n);
         return;
-
-      } else if(aux->next == NULL) {
+      }
+      else if (aux->next == NULL)
+      {
 
         aux->next = n;
         l->size++;
         return;
-
-      } else aux = aux->next;
+      }
+      else
+        aux = aux->next;
     }
   }
 }
 
-
 // Nao é comutativo: (1,2) != (2,1)
-void addParEstacoesLinkedList(linkedlist *l, int codEstacao, int codProxEstacao) {
-	
-	if(l == NULL || codEstacao == -1 || codProxEstacao == -1) return;
+void addParEstacoesLinkedList(linkedlist *l, int codEstacao, int codProxEstacao)
+{
 
-	node *n = (node*) malloc(sizeof(node));
-  if(n == NULL) return;
+  if (l == NULL || codEstacao == -1 || codProxEstacao == -1)
+    return;
+
+  node *n = (node *)malloc(sizeof(node));
+  if (n == NULL)
+    return;
 
   n->data = malloc(sizeof(int) * 2);
-  if(n->data == NULL) {
+  if (n->data == NULL)
+  {
     free(n);
     return;
   }
-  
+
   n->next = NULL;
 
   int *v = n->data;
-	v[0] = codEstacao;
-	v[1] = codProxEstacao;
-  
+  v[0] = codEstacao;
+  v[1] = codProxEstacao;
 
-  if(l->head == NULL) { // Lista vazia
+  if (l->head == NULL)
+  { // Lista vazia
 
     l->head = n;
     l->currentnode = n;
     l->size++;
     return;
-
-  } else {
+  }
+  else
+  {
 
     node *aux = l->head;
-    
-    while(aux != NULL) {
+
+    while (aux != NULL)
+    {
 
       int *v_aux = aux->data;
 
-      if(v_aux[0] == codEstacao && v_aux[1] == codProxEstacao) {
-        
+      if (v_aux[0] == codEstacao && v_aux[1] == codProxEstacao)
+      {
+
         free(n->data);
         free(n);
         return;
-
-      } else if(aux->next == NULL) {
+      }
+      else if (aux->next == NULL)
+      {
 
         aux->next = n;
         l->size++;
         return;
-
-      } else aux = aux->next;
+      }
+      else
+        aux = aux->next;
     }
   }
 }
 
-int hasIntegerElementLinkedList(linkedlist *l, int n) {
-	
-  node *node = l->head;
-  
-  while(node != NULL) {
+int hasIntegerElementLinkedList(linkedlist *l, int n)
+{
 
-    int *i = (int*) node->data;
-    if(*i == n) return TRUE;
-    else node = node->next;
+  node *node = l->head;
+
+  while (node != NULL)
+  {
+
+    int *i = (int *)node->data;
+    if (*i == n)
+      return TRUE;
+    else
+      node = node->next;
   }
 
   return FALSE;
 }
 
-void printStringLinkedList(linkedlist l) {
-  
+void printStringLinkedList(linkedlist l)
+{
+
   node *aux = l.head;
-  while(aux != NULL) {
-    printf("%s\n", (char*) aux->data);
+  while (aux != NULL)
+  {
+    printf("%s\n", (char *)aux->data);
     aux = aux->next;
   }
 }
 
-void printParEstacoesLinkedList(linkedlist l) {
-	
+void printParEstacoesLinkedList(linkedlist l)
+{
+
   node *aux = l.head;
   int *v;
-	while(aux != NULL) {
+  while (aux != NULL)
+  {
     v = aux->data;
-		printf("%d, %d\n", v[0], v[1]);
-		aux = aux->next;
-	}
+    printf("%d, %d\n", v[0], v[1]);
+    aux = aux->next;
+  }
 }

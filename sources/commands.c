@@ -96,21 +96,13 @@ int selectDataWhereTable(char *inputfilename, int number) {
   char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
 
   DataRegister dr;
+  setEmptyDataRegister(&dr);
+
 	FILE *f = fopen(inputfilename, "rb");
 	if (f == NULL) return 1;
   
   for(int i = 0; i < number; i++) {
     
-    setEmptyDataRegister(&dr);
-    // dr.codEstacao = EMPTY_FIELD_INTEGER;
-    // dr.codLinha = EMPTY_FIELD_INTEGER;
-    // dr.codProxEstacao = EMPTY_FIELD_INTEGER;
-    // dr.distProxEstacao = EMPTY_FIELD_INTEGER;
-    // dr.codLinhaIntegra = EMPTY_FIELD_INTEGER;
-    // dr.codEstIntegra = EMPTY_FIELD_INTEGER;
-    // dr.nomeEstacao[0] = EMPTY_FIELD_STRING;
-    // dr.nomeLinha[0] = EMPTY_FIELD_STRING;
-
     fgets(str, MAX_SIZE_STR, stdin);
     str[strlen(str) - 1] = '\0';
 
@@ -121,9 +113,9 @@ int selectDataWhereTable(char *inputfilename, int number) {
     strcpy(fieldValue, p);
 
     fillFieldDataRegister(&dr, fieldName, fieldValue);
-    findDataRegistersBIN(f, &dr);
   }
 
+  findDataRegistersBIN(f, &dr);
   fclose(f);
 
   binarioNaTela(inputfilename);
@@ -141,14 +133,6 @@ int deleteDataTable(char *inputfilename, int number) {
   for(int i = 0; i < number; i++) {
     
     setEmptyDataRegister(&dr);
-    // dr.codEstacao = EMPTY_FIELD_INTEGER;
-    // dr.codLinha = EMPTY_FIELD_INTEGER;
-    // dr.codProxEstacao = EMPTY_FIELD_INTEGER;
-    // dr.distProxEstacao = EMPTY_FIELD_INTEGER;
-    // dr.codLinhaIntegra = EMPTY_FIELD_INTEGER;
-    // dr.codEstIntegra = EMPTY_FIELD_INTEGER;
-    // dr.nomeEstacao[0] = EMPTY_FIELD_STRING;
-    // dr.nomeLinha[0] = EMPTY_FIELD_STRING;
 
     fgets(str, MAX_SIZE_STR, stdin);
     str[strlen(str) - 1] = '\0';

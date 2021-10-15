@@ -7,15 +7,12 @@
 * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../headers/binmanager.h"
 #include "../headers/constants.h"
 #include "../headers/registers.h"
-
-
 
 /**
   - Function: jumpHeaderCSV
@@ -24,12 +21,12 @@
   - Parameters: 
     - f: FILE do arquivo de leitura (arquivo ja deve estar aberto)
 */
-void jumpHeaderCSV(FILE *f) {
+void jumpHeaderCSV(FILE *f)
+{
   char c = fgetc(f);
-	while(c != '\n') c = fgetc(f);
+  while (c != '\n')
+    c = fgetc(f);
 }
-
-
 
 /**
   - Function: readFieldCSV
@@ -41,32 +38,35 @@ void jumpHeaderCSV(FILE *f) {
     - f: FILE do arquivo de leitura (arquivo ja deve estar aberto)
     - str: Variavel onde sera salva a string lida.
 */
-void readFieldCSV(FILE *f, char *str) {
-	
-	char c;
-	int i = 0;
+void readFieldCSV(FILE *f, char *str)
+{
+
+  char c;
+  int i = 0;
 
   c = fgetc(f);
 
-  if(c == ',' || c == '\r' || c == '\n' || feof(f)) {
+  if (c == ',' || c == '\r' || c == '\n' || feof(f))
+  {
     str[0] = '\0';
-    if(c == '\r') c = fgetc(f); // ler o \n e ir para proxima linha.
+    if (c == '\r')
+      c = fgetc(f); // ler o \n e ir para proxima linha.
     return;
   }
 
-  while(c != ',' && c != '\r' && c != '\n') {
-    
-    if(feof(f)) return;
+  while (c != ',' && c != '\r' && c != '\n')
+  {
+    if (feof(f))
+      return;
     str[i] = c;
     c = fgetc(f);
     i++;
   }
 
   str[i] = '\0';
-  if(c == '\r') c = fgetc(f); // ler o \n e ir para proxima linha.
+  if (c == '\r')
+    c = fgetc(f); // ler o \n e ir para proxima linha.
 }
-
-
 
 /**
   - Function: readLineCSV
@@ -77,38 +77,44 @@ void readFieldCSV(FILE *f, char *str) {
     - f: FILE do arquivo de leitura (arquivo ja deve estar aberto)
     - dr: DataRegister onde serao armazenados os dados lidos do arquivo
 */
-void readLineCSV(FILE *f, DataRegister *dr) {
+void readLineCSV(FILE *f, DataRegister *dr)
+{
 
   char str[MAX_SIZE_STR];
-  
+
   readFieldCSV(f, str);
   dr->codEstacao = atoi(str);
 
   readFieldCSV(f, str);
   strcpy(dr->nomeEstacao, str);
-  
+
   readFieldCSV(f, str);
   dr->codLinha = atoi(str);
-  if(dr->codLinha == 0) dr->codLinha = -1;
+  if (dr->codLinha == 0)
+    dr->codLinha = -1;
 
   readFieldCSV(f, str);
   strcpy(dr->nomeLinha, str);
 
   readFieldCSV(f, str);
   dr->codProxEstacao = atoi(str);
-  if(dr->codProxEstacao == 0) dr->codProxEstacao = -1;
+  if (dr->codProxEstacao == 0)
+    dr->codProxEstacao = -1;
 
   readFieldCSV(f, str);
   dr->distProxEstacao = atoi(str);
-  if(dr->distProxEstacao == 0) dr->distProxEstacao = -1;
+  if (dr->distProxEstacao == 0)
+    dr->distProxEstacao = -1;
 
   readFieldCSV(f, str);
   dr->codLinhaIntegra = atoi(str);
-  if(dr->codLinhaIntegra == 0) dr->codLinhaIntegra = -1;
+  if (dr->codLinhaIntegra == 0)
+    dr->codLinhaIntegra = -1;
 
   readFieldCSV(f, str);
   dr->codEstIntegra = atoi(str);
-  if(dr->codEstIntegra == 0) dr->codEstIntegra = -1;
+  if (dr->codEstIntegra == 0)
+    dr->codEstIntegra = -1;
 
   dr->removido = '0';
   dr->proxLista = -1;
