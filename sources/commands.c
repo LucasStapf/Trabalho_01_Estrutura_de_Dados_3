@@ -15,6 +15,7 @@
 #include "../headers/constants.h"
 #include "../headers/commands.h"
 #include "../headers/registers.h"
+#include "../headers/display.h"
 
 int cmdSelector() {
 
@@ -78,20 +79,17 @@ int cmdSelector() {
   return 1;
 }
 
-int createTable(char *inputfilename, char *outputfilename) {
-  createFileBIN(inputfilename, outputfilename);
+void createTable(char *inputfilename, char *outputfilename) {
+  showMessage(createFileBIN(inputfilename, outputfilename));
   binarioNaTela(outputfilename);
-  return 0;
 }
 
-int selectDataTable(char *inputfilename) {
-  printFileBIN(inputfilename);
-  // binarioNaTela(inputfilename);
-  return 0;
+void selectDataTable(char *inputfilename) { 
+  showMessage(printFileBIN(inputfilename));
 }
 
 
-int selectDataWhereTable(char *inputfilename, int number) {
+void selectDataWhereTable(char *inputfilename, int number) {
 
   char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
 
@@ -99,7 +97,10 @@ int selectDataWhereTable(char *inputfilename, int number) {
   setEmptyDataRegister(&dr);
 
 	FILE *f = fopen(inputfilename, "rb");
-	if (f == NULL) return 1;
+	if (f == NULL) {
+    showMessage(FILE_ERROR);
+    return;
+  }
   
   for(int i = 0; i < number; i++) {
     
@@ -115,20 +116,20 @@ int selectDataWhereTable(char *inputfilename, int number) {
     fillFieldDataRegister(&dr, fieldName, fieldValue);
   }
 
-  findDataRegistersBIN(f, &dr);
+  showMessage(findDataRegistersBIN(f, &dr));
   fclose(f);
-
-  // binarioNaTela(inputfilename);
-  return 0;
 }
 
-int deleteDataTable(char *inputfilename, int number) {
+void deleteDataTable(char *inputfilename, int number) {
   
   char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
 
   DataRegister dr;
 	FILE *f = fopen(inputfilename, "rb+");
-	if (f == NULL) return 1;
+	if (f == NULL) {
+    showMessage(FILE_ERROR);
+    return;
+  }
   
   for(int i = 0; i < number; i++) {
     
@@ -157,7 +158,6 @@ int deleteDataTable(char *inputfilename, int number) {
   fclose(f);
 
   binarioNaTela(inputfilename);
-  return 0;
 }
 
 int insertDataTable(char *inputfilename, int number) {

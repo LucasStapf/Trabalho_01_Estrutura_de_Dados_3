@@ -15,11 +15,14 @@
 #define TRUE  0
 #define FALSE 1
 
+#define SUCCESS 0
+
 #define MAX_SIZE_STR 200
 
 #define REMOVED     1
 #define NOT_REMOVED 0
 
+#define FILE_ERROR      1
 #define END_OF_FILE_BIN 2
 
 #define REGISTER_NOT_FOUND  3
@@ -27,7 +30,6 @@
 
 #define DIFFERENT_REGISTERS   4
 #define EQUIVALENT_REGISTERS  5
-
 
 // Definidos a partir do SEEK_SET.
 #define SEEK_STATUS               0

@@ -16,12 +16,12 @@ enum command {
 
 int cmdSelector();
 
-int createTable(char *inputfilename, char *outputfilename);
-int selectDataTable(char *inputfilename);
-int selectDataWhereTable(char *inputfilename, int number);
-int deleteDataTable(char *inputfilename, int number);
-int insertDataTable(char *inputfilename, int number);
-int updateDataTable(char *inputfilename, int number);
+void createTable(char *inputfilename, char *outputfilename);
+void selectDataTable(char *inputfilename);
+void selectDataWhereTable(char *inputfilename, int number);
+void deleteDataTable(char *inputfilename, int number);
+void insertDataTable(char *inputfilename, int number);
+void updateDataTable(char *inputfilename, int number);
 
 void binarioNaTela(char *nomeArquivoBinario);
 
