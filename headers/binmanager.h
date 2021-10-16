@@ -18,10 +18,13 @@ void readHeaderRegisterBIN(FILE *f, HeaderRegister *rc); // ok
 void writeDataRegisterBIN(FILE *f, DataRegister *dr); // ok
 int readDataRegisterBIN(FILE *f, DataRegister *dr); // ok
 int findDataRegistersBIN(FILE *f, DataRegister *dr); // ok
-int deleteDataRegisterBIN(FILE *f, DataRegister *dr);
+int deleteDataRegisterBIN(FILE *f, DataRegister *dr); // ok
+int insertDataRegisterBIN(FILE *f, DataRegister *dr);
 
 void createFileBIN(char *csvName, char *binName); // ok
 void printFileBIN(char *binName); // ok
+
+void fillWithTrash(FILE *f, int numBytes);
 
 void printHeaderBIN(FILE *f);
 

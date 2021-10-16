@@ -41,6 +41,7 @@
 #define NULL_FIELD_STRING     '|'
 #define EMPTY_FIELD_INTEGER   -2
 #define EMPTY_FIELD_STRING    '\0'
+#define MEMORY_TRASH          '$'
 
 
 #endif

@@ -164,6 +164,8 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr) {
   do {
 
     ret = readDataRegisterBIN(f, &r);
+    if(ret == END_OF_FILE_BIN) break;
+    
     if(ret == REMOVED) continue;
     else {
       
@@ -194,8 +196,6 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr) {
 */
 int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
   
-  fseek(f, SEEK_STATUS, SEEK_SET);
-
   HeaderRegister hr;
 
   readHeaderRegisterBIN(f, &hr);
@@ -286,6 +286,58 @@ int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
   return 1;
 }
 
+
+int insertDataRegisterBIN(FILE *f, DataRegister *dr) {
+	
+  HeaderRegister hr;
+  readHeaderRegisterBIN(f, &hr);
+  hr.status = '0';
+  writeHeaderRegisterBIN(f, &hr);
+
+  DataRegister r;
+  LONG_8 nextByte = hr.topoDaLista;
+
+  do {
+
+    fseek(f, nextByte, SEEK_SET);
+    readDataRegisterBIN(f, &r);
+
+    if(r.tamanhoRegistro >= dr->tamanhoRegistro) {
+      fseek(f, nextByte, SEEK_SET);
+      writeDataRegisterBIN(f, dr);
+			fillWithTrash(f, r.tamanhoRegistro - dr->tamanhoRegistro);
+      hr.topoDaLista = r.proxLista;
+    } else nextByte = r.proxLista;
+
+  } while(nextByte != -1 && r.tamanhoRegistro < dr->tamanhoRegistro);
+
+  if(nextByte == -1) {
+    fseek(f, 0, SEEK_END);
+    writeDataRegisterBIN(f, dr);
+  }
+
+  fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
+  
+	linkedlist nomesEstacoes;
+  createLinkedList(&nomesEstacoes);
+
+	linkedlist paresDistintosEstacoes; // Nao comutativo: (1,2) != (2,1)
+	createLinkedList(&paresDistintosEstacoes);
+
+  while(!feof(f)) {
+    if(readDataRegisterBIN(f, &r) != REMOVED) {
+      addStringLinkedList(&nomesEstacoes, r.nomeEstacao);
+      addParEstacoesLinkedList(&paresDistintosEstacoes, r.codEstacao, r.codProxEstacao);
+    }
+	}
+  
+  hr.status = '1';
+  hr.nroEstacoes = nomesEstacoes.size;
+  hr.nroParesEstacao = paresDistintosEstacoes.size;  
+  writeHeaderRegisterBIN(f, &hr);
+  
+  return 1;
+}
 
 
 /**
@@ -382,16 +434,22 @@ void printFileBIN(char *binName) {
 	fclose(f);
 }
 
-
-void printHeaderBIN(FILE *f) {
-	fseek(f, SEEK_STATUS, SEEK_SET);
-	HeaderRegister rc;
-	fread(&rc.status, sizeof(rc.status), 1, f);
-	fread(&rc.topoDaLista, sizeof(rc.topoDaLista), 1, f);
-	fread(&rc.nroEstacoes, sizeof(rc.nroEstacoes), 1, f);
-	fread(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
-	printf("%c %lld %d %d\n", rc.status, rc.topoDaLista, rc.nroEstacoes, rc.nroParesEstacao);
+void fillWithTrash(FILE *f, int numBytes) {
+  char trash = MEMORY_TRASH; 
+	for(int i = 0; i < numBytes; i++) 
+    fwrite(&trash, sizeof(char), 1, f);
 }
+
+
+// void printHeaderBIN(FILE *f) {
+// 	fseek(f, SEEK_STATUS, SEEK_SET);
+// 	HeaderRegister rc;
+// 	fread(&rc.status, sizeof(rc.status), 1, f);
+// 	fread(&rc.topoDaLista, sizeof(rc.topoDaLista), 1, f);
+// 	fread(&rc.nroEstacoes, sizeof(rc.nroEstacoes), 1, f);
+// 	fread(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
+// 	printf("%c %lld %d %d\n", rc.status, rc.topoDaLista, rc.nroEstacoes, rc.nroParesEstacao);
+// }
 
 // .....
 // aaaaaaaa 1 2 -> n add

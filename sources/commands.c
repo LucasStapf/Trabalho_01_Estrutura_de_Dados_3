@@ -86,7 +86,7 @@ int createTable(char *inputfilename, char *outputfilename) {
 
 int selectDataTable(char *inputfilename) {
   printFileBIN(inputfilename);
-  binarioNaTela(inputfilename);
+  // binarioNaTela(inputfilename);
   return 0;
 }
 
@@ -118,7 +118,7 @@ int selectDataWhereTable(char *inputfilename, int number) {
   findDataRegistersBIN(f, &dr);
   fclose(f);
 
-  binarioNaTela(inputfilename);
+  // binarioNaTela(inputfilename);
   return 0;
 }
 
@@ -161,7 +161,46 @@ int deleteDataTable(char *inputfilename, int number) {
 }
 
 int insertDataTable(char *inputfilename, int number) {
-  printf("insert %s %d\n", inputfilename, number);
+  
+  FILE *f = fopen(inputfilename, "rb+");
+  
+  DataRegister dr;
+  char str[MAX_SIZE_STR];
+  char *p;
+
+  for(int i = 0; i < number; i++) {
+    
+    fgets(str, MAX_SIZE_STR, stdin);
+    
+    p = strtok_custom(str, ' '); // codEstacao
+    fillFieldDataRegister(&dr, "codEstacao", p);
+
+    p = strtok_custom(NULL, ' '); // nomeEstacao
+    fillFieldDataRegister(&dr, "nomeEstacao", p);
+		
+    p = strtok_custom(NULL, ' '); // codLinha
+    fillFieldDataRegister(&dr, "codLinha", p);
+
+    p = strtok_custom(NULL, ' '); // nomeLinha
+    fillFieldDataRegister(&dr, "nomeLinha", p);
+    
+    p = strtok_custom(NULL, ' '); // codProxEstacao
+    fillFieldDataRegister(&dr, "codProxEstacao", p);
+    
+    p = strtok_custom(NULL, ' '); // distProxEstacao
+    fillFieldDataRegister(&dr, "distProxEstacao", p);
+    
+    p = strtok_custom(NULL, ' '); // codLinhaIntegra
+    fillFieldDataRegister(&dr, "codLinhaIntegra", p);
+
+    p = strtok_custom(NULL, ' '); // codEstIntegra
+		fillFieldDataRegister(&dr, "codEstIntegra", p);
+
+    insertDataRegisterBIN(f, &dr);
+  }
+
+	fclose(f);
+
   binarioNaTela(inputfilename);
   return 0;
 }

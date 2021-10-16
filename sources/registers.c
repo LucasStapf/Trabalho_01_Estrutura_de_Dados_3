@@ -98,22 +98,22 @@ void setEmptyDataRegister(DataRegister *dr) {
 */
 void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
 
-  if (strcmp("codEstacao", field) == 0)
+  if (strcmp("codEstacao", field) == 0) // Nao pode ser nulo
     dr->codEstacao = atoi(value);
-  else if (strcmp("codLinha", field) == 0)
-    dr->codLinha = atoi(value);
-  else if (strcmp("codProxEstacao", field) == 0)
-    dr->codProxEstacao = atoi(value);
-  else if (strcmp("distProxEstacao", field) == 0)
-    dr->distProxEstacao = atoi(value);
-  else if (strcmp("codLinhaIntegra", field) == 0)
-    dr->codLinhaIntegra = atoi(value);
-  else if (strcmp("codEstIntegra", field) == 0)
-    dr->codEstIntegra = atoi(value);
-  else if (strcmp("nomeEstacao", field) == 0)
+  else if (strcmp("nomeEstacao", field) == 0) // Nao pode ser nulo
     strcpy(dr->nomeEstacao, value);
+  else if (strcmp("codLinha", field) == 0) 
+    dr->codLinha = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
+  else if (strcmp("codProxEstacao", field) == 0)
+    dr->codProxEstacao = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
+  else if (strcmp("distProxEstacao", field) == 0)
+    dr->distProxEstacao = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
+  else if (strcmp("codLinhaIntegra", field) == 0)
+    dr->codLinhaIntegra = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
+  else if (strcmp("codEstIntegra", field) == 0)
+    dr->codEstIntegra = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
   else if (strcmp("nomeLinha", field) == 0)
-    strcpy(dr->nomeLinha, value);
+    strcmp(value, "NULO") != 0 ? strcpy(dr->nomeLinha, value) : strcpy(dr->nomeLinha, "|\0");
 }
 
 /**
