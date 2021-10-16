@@ -160,7 +160,7 @@ void deleteDataTable(char *inputfilename, int number) {
   binarioNaTela(inputfilename);
 }
 
-int insertDataTable(char *inputfilename, int number) {
+void insertDataTable(char *inputfilename, int number) {
   
   FILE *f = fopen(inputfilename, "rb+");
   
@@ -202,13 +202,11 @@ int insertDataTable(char *inputfilename, int number) {
 	fclose(f);
 
   binarioNaTela(inputfilename);
-  return 0;
 }
 
-int updateDataTable(char *inputfilename, int number) {
+void updateDataTable(char *inputfilename, int number) {
   printf("update %s %d\n", inputfilename, number);
   binarioNaTela(inputfilename);
-  return 0;
 }
 
 
