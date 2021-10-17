@@ -40,10 +40,11 @@
 
 // Constantes para preencher os campos dos DataRegister.
 #define NULL_FIELD_INTEGER    -1
-#define NULL_FIELD_STRING     '|'
+#define NULL_FIELD_STRING     "\0"
 #define EMPTY_FIELD_INTEGER   -2
-#define EMPTY_FIELD_STRING    '\0'
+#define EMPTY_FIELD_STRING    "#\0"
 #define MEMORY_TRASH          '$'
 
+#define FIELD_DELIMITER '|'
 
 #endif

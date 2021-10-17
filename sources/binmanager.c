@@ -65,7 +65,7 @@ void readHeaderRegisterBIN(FILE *f, HeaderRegister *hr)
 void writeDataRegisterBIN(FILE *f, DataRegister *dr)
 {
 
-  char pipe = NULL_FIELD_STRING;
+  char fd = FIELD_DELIMITER;
 
   fwrite(&dr->removido, sizeof(dr->removido), 1, f);
   fwrite(&dr->tamanhoRegistro, sizeof(dr->tamanhoRegistro), 1, f);
@@ -78,9 +78,9 @@ void writeDataRegisterBIN(FILE *f, DataRegister *dr)
   fwrite(&dr->codEstIntegra, sizeof(dr->codEstIntegra), 1, f);
 
   fwrite(dr->nomeEstacao, sizeof(char), strlen(dr->nomeEstacao), f);
-  fwrite(&pipe, sizeof(char), 1, f); // adicao do pipe no fim da string
+  fwrite(&fd, sizeof(char), 1, f); // adicao do pipe no fim da string
   fwrite(dr->nomeLinha, sizeof(char), strlen(dr->nomeLinha), f);
-  fwrite(&pipe, sizeof(char), 1, f); // adicao do pipe no fim da string
+  fwrite(&fd, sizeof(char), 1, f); // adicao do pipe no fim da string
 }
 
 /**
@@ -124,26 +124,26 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
   { // Leitura do campo nomeEstacao feita char a char
 
     fread(&dr->nomeEstacao[i], sizeof(char), 1, f);
-    if (dr->nomeEstacao[i] == '|')
+    if (dr->nomeEstacao[i] == FIELD_DELIMITER)
       break;
     else
       i++;
 
-  } while (dr->nomeEstacao[i] != '|');
-  dr->nomeEstacao[i] = '\0'; // Substitui o '|' pelo '\0'
+  } while (dr->nomeEstacao[i] != FIELD_DELIMITER);
+  dr->nomeEstacao[i] = '\0'; // Substitui o FIELD_DELIMITER pelo '\0'
 
   i = 0;
   do
   { // Leitura do campo nomeLinha feita char a char
 
     fread(&dr->nomeLinha[i], sizeof(char), 1, f);
-    if (dr->nomeLinha[i] == '|')
+    if (dr->nomeLinha[i] == FIELD_DELIMITER)
       break;
     else
       i++;
 
-  } while (dr->nomeLinha[i] != '|');
-  dr->nomeLinha[i] = '\0'; // Substitui o '|' pelo '\0'
+  } while (dr->nomeLinha[i] != FIELD_DELIMITER);
+  dr->nomeLinha[i] = '\0'; // Substitui o FIELD_DELIMITER pelo '\0'
 
   return NOT_REMOVED;
 }

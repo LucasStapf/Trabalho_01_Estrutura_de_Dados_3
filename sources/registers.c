@@ -20,7 +20,8 @@
     - dr: struct DataRegister
   - Returns: Retorna o tamanho do registro no arquivo binario.
 */
-int sizeOfRegister(DataRegister dr) {
+int sizeOfRegister(DataRegister dr)
+{
 
   int size = (2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(char); // + 2: contabilizando o pipe '|'
   size += (6 * sizeof(int));
@@ -37,7 +38,8 @@ int sizeOfRegister(DataRegister dr) {
     - dr2: registro 2
   - Returns: Retorna DIFFERENT_REGISTERS caso os registros sejam nao-equivalentes, e EQUIVALENT_REGISTERS caso contrario.
 */
-int compareRegister(DataRegister dr1, DataRegister dr2) {
+int compareRegister(DataRegister dr1, DataRegister dr2)
+{
 
   if (dr1.codEstacao != EMPTY_FIELD_INTEGER && dr2.codEstacao != EMPTY_FIELD_INTEGER && dr1.codEstacao != dr2.codEstacao)
     return DIFFERENT_REGISTERS;
@@ -60,10 +62,10 @@ int compareRegister(DataRegister dr1, DataRegister dr2) {
   if (dr1.codEstacao != EMPTY_FIELD_INTEGER && dr2.codEstacao != EMPTY_FIELD_INTEGER && dr1.codEstacao != dr2.codEstacao)
     return DIFFERENT_REGISTERS;
 
-  if (dr1.nomeEstacao[0] != EMPTY_FIELD_STRING && dr2.nomeEstacao[0] != EMPTY_FIELD_STRING && strcmp(dr1.nomeEstacao, dr2.nomeEstacao) != 0)
+  if (strcmp(dr1.nomeEstacao, EMPTY_FIELD_STRING) != 0 && strcmp(dr2.nomeEstacao, EMPTY_FIELD_STRING) && strcmp(dr1.nomeEstacao, dr2.nomeEstacao) != 0)
     return DIFFERENT_REGISTERS;
 
-  if (dr1.nomeLinha[0] != EMPTY_FIELD_STRING && dr2.nomeLinha[0] != EMPTY_FIELD_STRING && strcmp(dr1.nomeLinha, dr2.nomeLinha) != 0)
+  if (strcmp(dr1.nomeLinha, EMPTY_FIELD_STRING) != 0 && strcmp(dr2.nomeLinha, EMPTY_FIELD_STRING) && strcmp(dr1.nomeLinha, dr2.nomeLinha) != 0)
     return DIFFERENT_REGISTERS;
 
   return EQUIVALENT_REGISTERS;
@@ -75,7 +77,8 @@ int compareRegister(DataRegister dr1, DataRegister dr2) {
   - Parameters: 
     - dr: Registro que tera seus campos atualizados para vazio.
 */
-void setEmptyDataRegister(DataRegister *dr) {
+void setEmptyDataRegister(DataRegister *dr)
+{
 
   dr->codEstacao = EMPTY_FIELD_INTEGER;
   dr->codLinha = EMPTY_FIELD_INTEGER;
@@ -83,8 +86,10 @@ void setEmptyDataRegister(DataRegister *dr) {
   dr->distProxEstacao = EMPTY_FIELD_INTEGER;
   dr->codLinhaIntegra = EMPTY_FIELD_INTEGER;
   dr->codEstIntegra = EMPTY_FIELD_INTEGER;
-  dr->nomeEstacao[0] = EMPTY_FIELD_STRING;
-  dr->nomeLinha[0] = EMPTY_FIELD_STRING;
+  strcpy(dr->nomeEstacao, EMPTY_FIELD_STRING);
+  strcpy(dr->nomeLinha, EMPTY_FIELD_STRING);
+  // dr->nomeEstacao[0] = EMPTY_FIELD_STRING;
+  // dr->nomeLinha[0] = EMPTY_FIELD_STRING;
 }
 
 /**
@@ -96,13 +101,14 @@ void setEmptyDataRegister(DataRegister *dr) {
     - field: Nome do campo a ser atualizado.
     - value: Valor do campo.
 */
-void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
+void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
+{
 
   if (strcmp("codEstacao", field) == 0) // Nao pode ser nulo
     dr->codEstacao = atoi(value);
   else if (strcmp("nomeEstacao", field) == 0) // Nao pode ser nulo
     strcpy(dr->nomeEstacao, value);
-  else if (strcmp("codLinha", field) == 0) 
+  else if (strcmp("codLinha", field) == 0)
     dr->codLinha = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
   else if (strcmp("codProxEstacao", field) == 0)
     dr->codProxEstacao = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
@@ -113,7 +119,7 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
   else if (strcmp("codEstIntegra", field) == 0)
     dr->codEstIntegra = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
   else if (strcmp("nomeLinha", field) == 0)
-    strcmp(value, "NULO") != 0 ? strcpy(dr->nomeLinha, value) : strcpy(dr->nomeLinha, "|\0");
+    strcmp(value, "NULO") != 0 ? strcpy(dr->nomeLinha, value) : strcpy(dr->nomeLinha, NULL_FIELD_STRING);
 }
 
 /**
@@ -124,7 +130,8 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
   - Parameters: 
     - dr: Registro a ser exibido.
 */
-void printRegister(DataRegister dr) {
+void printRegister(DataRegister dr)
+{
 
   printf("%d ", dr.codEstacao);  //
   printf("%s ", dr.nomeEstacao); //
