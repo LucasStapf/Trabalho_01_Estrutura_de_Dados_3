@@ -145,6 +145,10 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
   } while (dr->nomeLinha[i] != FIELD_DELIMITER);
   dr->nomeLinha[i] = '\0'; // Substitui o FIELD_DELIMITER pelo '\0'
 
+  char flag = fgetc(f);
+  while(flag == MEMORY_TRASH) flag = fgetc(f);
+  fseek(f, -sizeof(char), SEEK_CUR); // voltar para o primeiro byte do registro seguinte.
+  
   return NOT_REMOVED;
 }
 
@@ -320,6 +324,7 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
       writeDataRegisterBIN(f, dr);
       fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
       hr.topoDaLista = r.proxLista;
+      break;
     }
     else
       nextByte = r.proxLista;
