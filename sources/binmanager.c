@@ -103,27 +103,44 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
     return END_OF_FILE_BIN;
 
   fread(&dr->tamanhoRegistro, sizeof(dr->tamanhoRegistro), 1, f);
+  
+  int bytesLidos = 0;
+
+  fread(&dr->proxLista, sizeof(dr->proxLista), 1, f);
+  bytesLidos += sizeof(dr->proxLista);
 
   if (dr->removido == '1')
   { // logicamente removido
     // LONG_8 byteOffsetNextReg = dr->tamanhoRegistro - sizeof(dr->tamanhoRegistro) - sizeof(dr->removido);
-    fseek(f, dr->tamanhoRegistro, SEEK_CUR);
+    fseek(f, dr->tamanhoRegistro - sizeof(dr->proxLista), SEEK_CUR);
     return REMOVED;
   }
 
-  fread(&dr->proxLista, sizeof(dr->proxLista), 1, f);
+
+
   fread(&dr->codEstacao, sizeof(dr->codEstacao), 1, f);
+  bytesLidos += sizeof(dr->codEstacao);
+
   fread(&dr->codLinha, sizeof(dr->codLinha), 1, f);
+  bytesLidos += sizeof(dr->codLinha);
+
   fread(&dr->codProxEstacao, sizeof(dr->codProxEstacao), 1, f);
+  bytesLidos += sizeof(dr->codProxEstacao);
+
   fread(&dr->distProxEstacao, sizeof(dr->distProxEstacao), 1, f);
+  bytesLidos += sizeof(dr->distProxEstacao);
+
   fread(&dr->codLinhaIntegra, sizeof(dr->codLinhaIntegra), 1, f);
+  bytesLidos += sizeof(dr->codLinhaIntegra);
+
   fread(&dr->codEstIntegra, sizeof(dr->codEstIntegra), 1, f);
+  bytesLidos += sizeof(dr->codEstIntegra);
 
   int i = 0;
   do
   { // Leitura do campo nomeEstacao feita char a char
 
-    fread(&dr->nomeEstacao[i], sizeof(char), 1, f);
+    bytesLidos += fread(&dr->nomeEstacao[i], sizeof(char), 1, f);
     if (dr->nomeEstacao[i] == FIELD_DELIMITER)
       break;
     else
@@ -136,7 +153,7 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
   do
   { // Leitura do campo nomeLinha feita char a char
 
-    fread(&dr->nomeLinha[i], sizeof(char), 1, f);
+    bytesLidos += fread(&dr->nomeLinha[i], sizeof(char), 1, f);
     if (dr->nomeLinha[i] == FIELD_DELIMITER)
       break;
     else
@@ -145,9 +162,12 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
   } while (dr->nomeLinha[i] != FIELD_DELIMITER);
   dr->nomeLinha[i] = '\0'; // Substitui o FIELD_DELIMITER pelo '\0'
 
+  // char c;
+  // while(dr->tamanhoRegistro > bytesLidos) bytesLidos += fread(&c, sizeof(char), 1, f); // pular o lixo de memoria.
   char flag = fgetc(f);
-  while(flag == MEMORY_TRASH) flag = fgetc(f);
-  fseek(f, -sizeof(char), SEEK_CUR); // voltar para o primeiro byte do registro seguinte.
+  while(!feof(f) && flag == MEMORY_TRASH) flag = fgetc(f);
+  
+  if(!feof(f)) fseek(f, - sizeof(char), SEEK_CUR); // voltar para o primeiro byte do registro seguinte.
   
   return NOT_REMOVED;
 }
@@ -319,7 +339,7 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
     if (r.tamanhoRegistro >= dr->tamanhoRegistro)
     {
       fseek(f, nextByte, SEEK_SET);
-      LONG_8 tamanhoAntigo = dr->tamanhoRegistro;
+      int tamanhoAntigo = dr->tamanhoRegistro;
       dr->tamanhoRegistro = r.tamanhoRegistro;
       writeDataRegisterBIN(f, dr);
       fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
