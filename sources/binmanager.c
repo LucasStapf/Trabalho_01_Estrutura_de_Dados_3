@@ -103,8 +103,6 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
     return END_OF_FILE_BIN;
 
   fread(&dr->tamanhoRegistro, sizeof(dr->tamanhoRegistro), 1, f);
-  printf("TAM: %d\n", dr->tamanhoRegistro);
-  //size_t bytesLidos = 0;
 
   LONG_8 pi = ftell(f);
   LONG_8 pf;
@@ -168,22 +166,19 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
 
 
   pf = ftell(f);
-  printf("1 TAM FTELL: %d | TAM: %d\n", pf - pi, dr->tamanhoRegistro);
   LONG_8 bytesLidos = pf - pi;
+  
   char c;
   
   while(dr->tamanhoRegistro > bytesLidos) {
     fread(&c, sizeof(char), 1, f);
     bytesLidos++;
-    //bytesLidos += sizeof(char);
-    printf("2 TAM FTELL: %d | TAM: %d\n", pf - pi, dr->tamanhoRegistro);
   } // pular o lixo de memoria.
   // char flag = fgetc(f);
   // while(!feof(f) && flag == MEMORY_TRASH) flag = fgetc(f);
   
   // if(!feof(f)) fseek(f, - sizeof(char), SEEK_CUR); // voltar para o primeiro byte do registro seguinte.
   
-  printf("3 TAM FTELL: %d | TAM: %d\n", pf - pi, dr->tamanhoRegistro);
   return NOT_REMOVED;
 }
 
@@ -393,6 +388,9 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
   hr.nroEstacoes = nomesEstacoes.size;
   hr.nroParesEstacao = paresDistintosEstacoes.size;
   writeHeaderRegisterBIN(f, &hr);
+
+  deleteLinkedList(&nomesEstacoes);
+  deleteLinkedList(&paresDistintosEstacoes);
 
   return 1;
 }

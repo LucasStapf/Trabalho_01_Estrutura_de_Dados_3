@@ -150,7 +150,7 @@ void addStringLinkedList(linkedlist *l, char *str)
 void addParEstacoesLinkedList(linkedlist *l, int codEstacao, int codProxEstacao)
 {
 
-  if (l == NULL || codEstacao == -1 || codProxEstacao == -1)
+  if (l == NULL || codEstacao == NULL_FIELD_INTEGER || codProxEstacao == NULL_FIELD_INTEGER)
     return;
 
   node *n = (node *)malloc(sizeof(node));
