@@ -133,6 +133,7 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
 void printRegister(DataRegister dr)
 {
 
+  printf("TAM = %d ", dr.tamanhoRegistro);
   printf("%d ", dr.codEstacao);  //
   printf("%s ", dr.nomeEstacao); //
 
