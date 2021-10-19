@@ -164,6 +164,11 @@ void insertDataTable(char *inputfilename, int number) {
   
   FILE *f = fopen(inputfilename, "rb+");
   
+  if(f == NULL) {
+    showMessage(FILE_ERROR);
+    return;
+  }
+  
   DataRegister dr;
   char str[MAX_SIZE_STR];
   char *p;
