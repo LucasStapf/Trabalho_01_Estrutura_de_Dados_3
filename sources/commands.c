@@ -201,6 +201,10 @@ void insertDataTable(char *inputfilename, int number) {
     p = strtok_custom(NULL, ' '); // codEstIntegra
 		fillFieldDataRegister(&dr, "codEstIntegra", p);
 
+    dr.removido = '0';
+    dr.tamanhoRegistro = sizeOfRegister(dr);
+    dr.proxLista = NULL_FIELD_INTEGER;
+
     insertDataRegisterBIN(f, &dr);
   }
 
