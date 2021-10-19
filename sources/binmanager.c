@@ -303,7 +303,7 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
   hr.status = '0';
   writeHeaderRegisterBIN(f, &hr);
 
-  DataRegister r;
+  DataRegister r; // o que a gente le
   LONG_8 nextByte = hr.topoDaLista;
 
   do
@@ -315,14 +315,16 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
     if (r.tamanhoRegistro >= dr->tamanhoRegistro)
     {
       fseek(f, nextByte, SEEK_SET);
+      LONG_8 tamanhoAntigo = dr->tamanhoRegistro;
+      dr->tamanhoRegistro = r.tamanhoRegistro;
       writeDataRegisterBIN(f, dr);
-      fillWithTrash(f, r.tamanhoRegistro - dr->tamanhoRegistro);
+      fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
       hr.topoDaLista = r.proxLista;
     }
     else
       nextByte = r.proxLista;
 
-  } while (nextByte != -1 && r.tamanhoRegistro < dr->tamanhoRegistro);
+  } while (nextByte != -1 && r.tamanhoRegistro < dr->tamanhoRegistro); // dr: o que a gente quer inserir
 
   if (nextByte == -1)
   {
