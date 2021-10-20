@@ -253,38 +253,44 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr)
 
   DataRegister r;
 
-  linkedlist nomesEstacoesRemovidas;
-  createLinkedList(&nomesEstacoesRemovidas);
+  linkedlist nomesEstacoes;
+  createLinkedList(&nomesEstacoes);
 
   linkedlist paresEstacoes;
   createLinkedList(&paresEstacoes);
 
   int ret;
+  
   do
   {
 
-    // LONG_8 byte = ftell(f);
+    LONG_8 byteAtual = ftell(f);
     ret = readDataRegisterBIN(f, &r);
+
     if (ret == REMOVED)
       continue;
+    else if(ret == END_OF_FILE_BIN) 
+      break;
     else
     { // estacao nao removida
 
       if (compareRegister(*dr, r) == EQUIVALENT_REGISTERS)
       {
 
-        addStringLinkedList(&nomesEstacoesRemovidas, r.nomeEstacao);
+        fseek(f, byteAtual, SEEK_SET); // volta para o byteoffset do registro lido
 
-        fseek(f, -(r.tamanhoRegistro + sizeof(r.removido) + sizeof(r.tamanhoRegistro)), SEEK_CUR); // volta para o byteoffset do registro lido
+        //fseek(f, -(r.tamanhoRegistro + sizeof(r.removido) + sizeof(r.tamanhoRegistro)), SEEK_CUR); // volta para o byteoffset do registro lido
 
         r.removido = '1';
         r.proxLista = hr.topoDaLista;
-        hr.topoDaLista = ftell(f); // byte offset do registro removido
+        hr.topoDaLista = byteAtual; // byte offset do registro removido
 
         writeDataRegisterBIN(f, &r);
       }
-      else
+      else {
+        addStringLinkedList(&nomesEstacoes, r.nomeEstacao);
         addParEstacoesLinkedList(&paresEstacoes, r.codEstacao, r.codProxEstacao);
+      }
     }
   } while (ret != END_OF_FILE_BIN);
 
@@ -308,7 +314,7 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr)
 
   // } while (ret != END_OF_FILE_BIN);
 
-  hr.nroEstacoes -= nomesEstacoesRemovidas.size;
+  hr.nroEstacoes = nomesEstacoes.size;
   hr.nroParesEstacao = paresEstacoes.size;
   hr.status = '1';
 
@@ -325,7 +331,7 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr)
   // fseek(f, SEEK_STATUS, SEEK_SET);
   // fwrite(&hr.status, sizeof(hr.status), 1, f);
 
-  deleteLinkedList(&nomesEstacoesRemovidas);
+  deleteLinkedList(&nomesEstacoes);
   deleteLinkedList(&paresEstacoes);
 }
 
