@@ -598,6 +598,24 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaPilha, LONG_8 *byteAnterio
   return -1;	
 }
 
+/**
+  - Function: updateRegisterStackBIN
+  - Description: Esta funcao atualiza a pilha de registros logicamente removidos alterando o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
+  - Parameters: 
+    - f: arquivo binario.
+    - byteAtual: Byte offset do registro que tera o campo 'proxLista' alterado.
+    - byteProximo: Valor que sera salvo no campo 'proxLista' do registro passado.
+*/
+void updateRegisterStackBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo) {
+
+  DataRegister dr;
+  dr.proxLista = byteProximo;
+  LONG_8 byte = byteAtual + sizeof(dr.removido) + sizeof(dr.tamanhoRegistro);
+  
+  fseek(f, byte, SEEK_SET);
+  fwrite(&dr.proxLista, sizeof(dr.proxLista), 1, f);
+}
+
 // void printHeaderBIN(FILE *f) {
 // 	fseek(f, SEEK_STATUS, SEEK_SET);
 // 	HeaderRegister rc;
