@@ -414,7 +414,78 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
 
 void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao) {
 
-  
+  HeaderRegister hr;
+  readHeaderRegisterBIN(f, &hr);
+  hr.status = '0';
+  writeHeaderRegisterBIN(f, &hr);
+
+  linkedlist bytesOffsetUpdate;
+  createLinkedList(&bytesOffsetUpdate);
+
+  fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
+
+  DataRegister r;
+
+  while(!feof(f)) {
+
+    LONG_8 byteOffset = ftell(f);
+    int ret = readDataRegisterBIN(f, &r);
+    
+    if(ret == END_OF_FILE_BIN) break;
+    else if(ret == REMOVED) continue;
+
+    LONG_8 nextByteOffset = ftell(f);
+
+    if(compareRegister(r, *dr_busca) == EQUIVALENT_REGISTERS && hasLONG_8ElementLinkedList(&bytesOffsetUpdate, byteOffset) == FALSE) {
+
+      LONG_8 *b = (LONG_8*) malloc(sizeof(LONG_8)); // Guarda o byte offset de onde o registro sera atualizado
+
+      int tamanhoAntigo = r.tamanhoRegistro;
+      copyDataRegister(&r, dr_alteracao);
+      r.tamanhoRegistro = sizeOfRegister(r);
+      
+      fseek(f, byteOffset, SEEK_SET);
+
+      if(r.tamanhoRegistro <= tamanhoAntigo) { // Pode escrever o registro no mesmo lugar.
+        
+        writeDataRegisterBIN(f, &r);
+        fillWithTrash(f, tamanhoAntigo - r.tamanhoRegistro);
+
+      } else {
+
+        char rem = '1';
+        fwrite(&rem, sizeof(char), 1, f); // Altera o registro para logicamente removido nesta posicao.
+        
+        LONG_8 byte, byteAnterior, byteProximo;
+        byte = findAvailableSpaceRegister(f, hr.topoDaLista, &byteAnterior, &byteProximo, r.tamanhoRegistro);
+
+        if(byte == -1) { // Escrever no final do arquivo.
+
+          fseek(f, 0, SEEK_END);
+          *b = ftell(f);
+          writeDataRegisterBIN(f, &r);
+
+        } else {
+          
+          if(byte == byteAnterior) hr.topoDaLista = byteProximo; // Topo da lista.
+          else updateRemovedRegisterListBIN(f, byteAnterior, byteProximo);
+          
+          fseek(f, byte, SEEK_SET);
+          *b = byte;
+
+          DataRegister aux;
+          readDataRegisterBIN(f, &aux);
+
+          fseek(f, byte, SEEK_SET);
+          writeDataRegisterBIN(f, &r);
+          fillWithTrash(f, aux.tamanhoRegistro - r.tamanhoRegistro);
+        }
+      }
+
+      addElementLinkedList(&bytesOffsetUpdate, b);
+      fseek(f, nextByteOffset, SEEK_SET);
+    }
+  }
 }
 
 /**
