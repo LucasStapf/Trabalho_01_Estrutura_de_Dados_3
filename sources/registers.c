@@ -131,15 +131,15 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
 */
 void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
   
-  if(dr_origem->codEstacao != NULL_FIELD_INTEGER) dr_destino->codEstacao = dr_origem->codEstacao;
-  if(dr_origem->codLinha != NULL_FIELD_INTEGER) dr_destino->codLinha = dr_origem->codLinha;
-  if(dr_origem->codProxEstacao != NULL_FIELD_INTEGER) dr_destino->codProxEstacao = dr_origem->codProxEstacao;
-  if(dr_origem->distProxEstacao != NULL_FIELD_INTEGER) dr_destino->distProxEstacao = dr_origem->distProxEstacao;
-  if(dr_origem->codLinhaIntegra != NULL_FIELD_INTEGER) dr_destino->codLinhaIntegra = dr_origem->codLinhaIntegra;
-  if(dr_origem->codEstIntegra != NULL_FIELD_INTEGER) dr_destino->codEstIntegra = dr_origem->codEstIntegra;
+  if(dr_origem->codEstacao != EMPTY_FIELD_INTEGER) dr_destino->codEstacao = dr_origem->codEstacao;
+  if(dr_origem->codLinha != EMPTY_FIELD_INTEGER) dr_destino->codLinha = dr_origem->codLinha;
+  if(dr_origem->codProxEstacao != EMPTY_FIELD_INTEGER) dr_destino->codProxEstacao = dr_origem->codProxEstacao;
+  if(dr_origem->distProxEstacao != EMPTY_FIELD_INTEGER) dr_destino->distProxEstacao = dr_origem->distProxEstacao;
+  if(dr_origem->codLinhaIntegra != EMPTY_FIELD_INTEGER) dr_destino->codLinhaIntegra = dr_origem->codLinhaIntegra;
+  if(dr_origem->codEstIntegra != EMPTY_FIELD_INTEGER) dr_destino->codEstIntegra = dr_origem->codEstIntegra;
 
-  if(strcmp(dr_origem->nomeEstacao, NULL_FIELD_STRING) != 0) strcpy(dr_destino->nomeEstacao, dr_origem->nomeEstacao);
-  if(strcmp(dr_origem->nomeLinha, NULL_FIELD_STRING) != 0) strcpy(dr_destino->nomeLinha, dr_origem->nomeLinha);
+  if(strcmp(dr_origem->nomeEstacao, EMPTY_FIELD_STRING) != 0) strcpy(dr_destino->nomeEstacao, dr_origem->nomeEstacao);
+  if(strcmp(dr_origem->nomeLinha, EMPTY_FIELD_STRING) != 0) strcpy(dr_destino->nomeLinha, dr_origem->nomeLinha);
 }
 
 /**
