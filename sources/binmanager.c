@@ -445,6 +445,7 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
     if(compareRegister(r, *dr_busca) == EQUIVALENT_REGISTERS && hasLONG_8ElementLinkedList(&bytesOffsetUpdate, byteOffset) == FALSE) {
 
       LONG_8 *b = (LONG_8*) malloc(sizeof(LONG_8)); // Guarda o byte offset de onde o registro sera atualizado
+      if (b == NULL) return;
 
       int tamanhoAntigo = r.tamanhoRegistro;
       copyDataRegister(&r, dr_alteracao);
@@ -454,8 +455,10 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
 
       if(r.tamanhoRegistro <= tamanhoAntigo) { // Pode escrever o registro no mesmo lugar.
         
+        int t = r.tamanhoRegistro;
+        r.tamanhoRegistro = tamanhoAntigo;
         writeDataRegisterBIN(f, &r);
-        fillWithTrash(f, tamanhoAntigo - r.tamanhoRegistro);
+        fillWithTrash(f, tamanhoAntigo - t);
 
       } else {
 
