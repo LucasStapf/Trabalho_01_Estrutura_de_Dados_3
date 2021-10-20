@@ -28,7 +28,7 @@ int cmdSelector() {
   int cmd;
   int number;
 
-  inputstr[strlen(inputstr) - 1] = '\0'; 
+  if(inputstr[strlen(inputstr) - 1] == '\n') inputstr[strlen(inputstr) - 1] = '\0'; 
 
   str = strtok(inputstr, " ");
   cmd = atoi(str);
@@ -105,7 +105,7 @@ void selectDataWhereTable(char *inputfilename, int number) {
   for(int i = 0; i < number; i++) {
     
     fgets(str, MAX_SIZE_STR, stdin);
-    str[strlen(str) - 1] = '\0';
+    if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
 
     char *p = strtok_custom(str, ' ');
     strcpy(fieldName, p);
@@ -136,7 +136,7 @@ void deleteDataTable(char *inputfilename, int number) {
     setEmptyDataRegister(&dr);
 
     fgets(str, MAX_SIZE_STR, stdin);
-    str[strlen(str) - 1] = '\0';
+    if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
 
     int n; // numero de campos
     char *p = strtok_custom(str, ' ');
@@ -176,6 +176,7 @@ void insertDataTable(char *inputfilename, int number) {
   for(int i = 0; i < number; i++) {
     
     fgets(str, MAX_SIZE_STR, stdin);
+    if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
     
     p = strtok_custom(str, ' '); // codEstacao
     fillFieldDataRegister(&dr, "codEstacao", p);
@@ -247,7 +248,7 @@ void updateDataTable(char *inputfilename, int number) {
     }
  
     fgets(str, MAX_SIZE_STR, stdin);
-    str[strlen(str) - 1] = '\0';
+    if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
 
     p = strtok_custom(str, ' ');
     n = atoi(p);
