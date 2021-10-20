@@ -681,13 +681,12 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterio
 
       return byteAtual;
 
-    } else {
+    } else if(dr.proxLista != NULL_FIELD_INTEGER){
       
       fseek(f, dr.proxLista, SEEK_SET);
       *byteAnterior = byteAtual;
     }
-
-	} while (dr.proxLista != -1);
+	} while (dr.proxLista != NULL_FIELD_INTEGER);
 
   return -1;	
 }
