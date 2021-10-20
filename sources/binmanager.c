@@ -108,40 +108,27 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
   LONG_8 pf;
 
   fread(&dr->proxLista, sizeof(dr->proxLista), 1, f);
-  //bytesLidos += sizeof(dr->proxLista);
 
   if (dr->removido == '1')
   { // logicamente removido
-    // LONG_8 byteOffsetNextReg = dr->tamanhoRegistro - sizeof(dr->tamanhoRegistro) - sizeof(dr->removido);
     fseek(f, dr->tamanhoRegistro - sizeof(dr->proxLista), SEEK_CUR);
     return REMOVED;
   }
 
 
   fread(&dr->codEstacao, sizeof(dr->codEstacao), 1, f);
-  //bytesLidos += sizeof(dr->codEstacao);
-
   fread(&dr->codLinha, sizeof(dr->codLinha), 1, f);
-  //bytesLidos += sizeof(dr->codLinha);
-
   fread(&dr->codProxEstacao, sizeof(dr->codProxEstacao), 1, f);
-  //bytesLidos += sizeof(dr->codProxEstacao);
-
   fread(&dr->distProxEstacao, sizeof(dr->distProxEstacao), 1, f);
-  //bytesLidos += sizeof(dr->distProxEstacao);
-
   fread(&dr->codLinhaIntegra, sizeof(dr->codLinhaIntegra), 1, f);
-  // bytesLidos += sizeof(dr->codLinhaIntegra);
-
   fread(&dr->codEstIntegra, sizeof(dr->codEstIntegra), 1, f);
-  // bytesLidos += sizeof(dr->codEstIntegra);
 
   int i = 0;
   do
   { // Leitura do campo nomeEstacao feita char a char
 
     fread(&dr->nomeEstacao[i], sizeof(char), 1, f);
-    // bytesLidos += sizeof(char);
+
     if (dr->nomeEstacao[i] == FIELD_DELIMITER)
       break;
     else
@@ -155,7 +142,7 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
   { // Leitura do campo nomeLinha feita char a char
 
     fread(&dr->nomeLinha[i], sizeof(char), 1, f);
-    // bytesLidos += sizeof(char);
+
     if (dr->nomeLinha[i] == FIELD_DELIMITER)
       break;
     else
@@ -174,10 +161,6 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr)
     fread(&c, sizeof(char), 1, f);
     bytesLidos++;
   } // pular o lixo de memoria.
-  // char flag = fgetc(f);
-  // while(!feof(f) && flag == MEMORY_TRASH) flag = fgetc(f);
-  
-  // if(!feof(f)) fseek(f, - sizeof(char), SEEK_CUR); // voltar para o primeiro byte do registro seguinte.
   
   return NOT_REMOVED;
 }
@@ -218,12 +201,12 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr)
       {
         found = REGISTER_FOUND;
         printRegister(r);
-        printf("\n"); //////////////////////////////////////////
+        printf("\n");
       }
     }
 
   } while (ret != END_OF_FILE_BIN);
-  // if(found == REGISTER_NOT_FOUND) printf("Registro inexistente."); // printar aqui msm?
+
   return found;
 }
 
@@ -245,11 +228,6 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr)
   writeHeaderRegisterBIN(f, &hr);
 
   fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
-
-  // fwrite(&hr.status, sizeof(hr.status), 1, f);
-  // fread(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
-  // fread(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
-  // fread(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
 
   DataRegister r;
 
@@ -279,8 +257,6 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr)
 
         fseek(f, byteAtual, SEEK_SET); // volta para o byteoffset do registro lido
 
-        //fseek(f, -(r.tamanhoRegistro + sizeof(r.removido) + sizeof(r.tamanhoRegistro)), SEEK_CUR); // volta para o byteoffset do registro lido
-
         r.removido = '1';
         r.proxLista = hr.topoDaLista;
         hr.topoDaLista = byteAtual; // byte offset do registro removido
@@ -294,42 +270,11 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr)
     }
   } while (ret != END_OF_FILE_BIN);
 
-  // fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
-
-  // do {
-
-  //   ret = readDataRegisterBIN(f, &r);
-  //   if(ret == REMOVED) continue;
-  //   else {
-
-  //     if(hasIntegerElementLinkedList(&codigosEstacoesRemovidas, r.codProxEstacao) == TRUE) {
-
-  //       r.codProxEstacao = NULL_FIELD_INTEGER;
-  //       r.distProxEstacao = NULL_FIELD_INTEGER;
-  //       fseek(f, -r.tamanhoRegistro, SEEK_CUR);
-  //       writeDataRegisterBIN(f, &r);
-  //       hr.nroParesEstacao--;
-  //     }
-  //   }
-
-  // } while (ret != END_OF_FILE_BIN);
-
   hr.nroEstacoes = nomesEstacoes.size;
   hr.nroParesEstacao = paresEstacoes.size;
   hr.status = '1';
 
   writeHeaderRegisterBIN(f, &hr);
-
-  // fseek(f, SEEK_TOPO_LISTA, SEEK_SET);
-  // fwrite(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, f);
-
-  // fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, f);
-
-  // fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, f);
-
-  // hr.status = '1';
-  // fseek(f, SEEK_STATUS, SEEK_SET);
-  // fwrite(&hr.status, sizeof(hr.status), 1, f);
 
   deleteLinkedList(&nomesEstacoes);
   deleteLinkedList(&paresEstacoes);
@@ -344,7 +289,6 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
   writeHeaderRegisterBIN(f, &hr);
 
   DataRegister r; // o que a gente le
-  // LONG_8 nextByte = hr.topoDaLista;
 
   LONG_8 byteAnterior, byteProximo;
   LONG_8 byteDisponivel = findAvailableSpaceRegister(f, hr.topoDaLista, &byteAnterior, &byteProximo, dr->tamanhoRegistro);
@@ -369,26 +313,6 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
     writeDataRegisterBIN(f, dr);
     fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
   }
-  // do
-  // {
-
-  //   fseek(f, nextByte, SEEK_SET);
-  //   readDataRegisterBIN(f, &r);
-
-  //   if (r.tamanhoRegistro >= dr->tamanhoRegistro)
-  //   {
-  //     fseek(f, nextByte, SEEK_SET);
-  //     int tamanhoAntigo = dr->tamanhoRegistro;
-  //     dr->tamanhoRegistro = r.tamanhoRegistro;
-  //     writeDataRegisterBIN(f, dr);
-  //     fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
-  //     hr.topoDaLista = r.proxLista;
-  //     break;
-  //   }
-  //   else
-  //     nextByte = r.proxLista;
-
-  // } while (nextByte != -1 && r.tamanhoRegistro < dr->tamanhoRegistro); // dr: o que a gente quer inserir
 
   fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
 
@@ -551,12 +475,13 @@ int createFileBIN(char *csvName, char *binName)
 
   HeaderRegister hr;
   hr.status = '0';
+  hr.topoDaLista = NULL_FIELD_INTEGER;
+  hr.nroEstacoes = 0;
+  hr.nroParesEstacao = 0;
+
   fwrite(&hr.status, sizeof(hr.status), 1, fout);
-  hr.topoDaLista = -1;
   fwrite(&hr.topoDaLista, sizeof(hr.topoDaLista), 1, fout);
-  hr.nroEstacoes = 0; // arrumar
   fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, fout);
-  hr.nroParesEstacao = 0; // arrumar
   fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, fout);
 
   jumpHeaderCSV(fin);
@@ -577,18 +502,14 @@ int createFileBIN(char *csvName, char *binName)
     writeDataRegisterBIN(fout, &dr);
   }
 
-  fseek(fout, SEEK_NRO_ESTACOES, SEEK_SET);
   hr.nroEstacoes = nomesEstacoes.size;
-  fwrite(&hr.nroEstacoes, sizeof(hr.nroEstacoes), 1, fout);
-  deleteLinkedList(&nomesEstacoes);
-
   hr.nroParesEstacao = paresDistintosEstacoes.size;
-  fwrite(&hr.nroParesEstacao, sizeof(hr.nroParesEstacao), 1, fout);
-  deleteLinkedList(&paresDistintosEstacoes);
-
-  fseek(fout, SEEK_STATUS, SEEK_SET);
   hr.status = '1';
-  fwrite(&hr.status, sizeof(hr.status), 1, fout);
+
+  writeHeaderRegisterBIN(fout, &hr);
+
+  deleteLinkedList(&paresDistintosEstacoes);
+  deleteLinkedList(&nomesEstacoes);
 
   fclose(fin);
   fclose(fout);
@@ -648,11 +569,11 @@ int printFileBIN(char *binName)
 
 /**
   - Function: fillWithTrash
-  - Description: Esta funcao escreve o caracter '$' na posicao corrente de escrita do arquivo binario.
+  - Description: Esta funcao escreve o caracter MEMORY_TRASH na posicao corrente de escrita do arquivo binario.
   - Note: O arquivo ja deve estar aberto para escrita no modo binario.
   - Parameters: 
     - f: arquivo binario.
-    - numBytes: numero de '$' que serao escritos. 
+    - numBytes: numero de MEMORY_TRASH que serao escritos. 
 */
 void fillWithTrash(FILE *f, int numBytes)
 {
@@ -664,6 +585,7 @@ void fillWithTrash(FILE *f, int numBytes)
 /**
   - Function: findAvailableSpaceRegister
   - Description: Esta funcao percorre a lista de arquivos logicamente removidos em busca de um registro que possua tamanho maior ou igual ao tamanho buscado.
+  - Note: O arquivo ja deve estar aberto para a leitura no modo binario.
   - Parameters: 
     - f: Arquivo binario.
     - topoDaLista: Primeiro registro logicamente removido da lista.
@@ -709,6 +631,7 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterio
 /**
   - Function: updateRemovedRegisterListBIN
   - Description: Esta funcao atualiza a lista de registros logicamente removidos alterando o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
+  - Note: O arquivo ja deve estar aberto para a leitura/escrita no modo binario.
   - Parameters: 
     - f: arquivo binario.
     - byteAtual: Byte offset do registro que tera o campo 'proxLista' alterado.
