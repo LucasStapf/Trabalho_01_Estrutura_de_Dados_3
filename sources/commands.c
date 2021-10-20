@@ -247,7 +247,7 @@ void updateDataTable(char *inputfilename, int number) {
     }
  
     fgets(str, MAX_SIZE_STR, stdin);
-    str[strlen(str) - 1] = '\0';
+    if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
 
     p = strtok_custom(str, ' ');
     n = atoi(p);
