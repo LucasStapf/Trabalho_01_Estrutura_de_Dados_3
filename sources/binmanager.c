@@ -553,14 +553,26 @@ void fillWithTrash(FILE *f, int numBytes)
     fwrite(&trash, sizeof(char), 1, f);
 }
 
-long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaPilha, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes) {
+/**
+  - Function: findAvailableSpaceRegister
+  - Description: Esta funcao percorre a lista de arquivos logicamente removidos em busca de um registro que possua tamanho maior ou igual ao tamanho buscado.
+  - Parameters: 
+    - f: Arquivo binario.
+    - topoDaLista: Primeiro registro logicamente removido da lista.
+    - byteAnterior: Byte offset do registro removido anterior (da lista) ao registro removido que atende as necessidades buscas.
+    - byteProximo: Bye offset do  proximo registro removido (da lista) ao registro removido que atende as necessidas buscadas.
+  - Returns:
+    - -1: Caso nenhum registro removido possua espaco suficiente.
+    - byte offset: Retorna o byte offset do registro que possue tamanho suficiente.
+*/
+long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes) {
 	
-  if(topoDaPilha == NULL_FIELD_INTEGER) return -1;
+  if(topoDaLista == NULL_FIELD_INTEGER) return -1;
   
-  fseek(f, topoDaPilha, SEEK_SET);
+  fseek(f, topoDaLista, SEEK_SET);
 	DataRegister dr;
 
-  *byteAnterior = topoDaPilha;
+  *byteAnterior = topoDaLista;
 
   do {
 
@@ -588,7 +600,7 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaPilha, LONG_8 *byteAnterio
 }
 
 /**
-  - Function: updateRegisterStackBIN
+  - Function: updateRemovedRegisterListBIN
   - Description: Esta funcao atualiza a lista de registros logicamente removidos alterando o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
   - Parameters: 
     - f: arquivo binario.
