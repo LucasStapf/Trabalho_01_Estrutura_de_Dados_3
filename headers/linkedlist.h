@@ -10,6 +10,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
+#include "../headers/constants.h"
+
 typedef struct node node;
 typedef struct linkedlist linkedlist;
 
@@ -31,6 +33,7 @@ int addElementLinkedList(linkedlist *l, void *data);
 void* getNextElementLinkedList(linkedlist *l);
 int hasNextElementLinkedList(linkedlist *l);
 int hasIntegerElementLinkedList(linkedlist *l, int n);
+int hasLONG_8ElementLinkedList(linkedlist *l, LONG_8 n);
 
 void addStringLinkedList(linkedlist *l, char *str);
 void addParEstacoesLinkedList(linkedlist *l, int codEstacao, int codProxEstacao);
