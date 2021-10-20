@@ -615,13 +615,3 @@ void updateRemovedRegisterListBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo)
   fseek(f, byte, SEEK_SET);
   fwrite(&dr.proxLista, sizeof(dr.proxLista), 1, f);
 }
-
-// void printHeaderBIN(FILE *f) {
-// 	fseek(f, SEEK_STATUS, SEEK_SET);
-// 	HeaderRegister rc;
-// 	fread(&rc.status, sizeof(rc.status), 1, f);
-// 	fread(&rc.topoDaLista, sizeof(rc.topoDaLista), 1, f);
-// 	fread(&rc.nroEstacoes, sizeof(rc.nroEstacoes), 1, f);
-// 	fread(&rc.nroParesEstacao, sizeof(rc.nroParesEstacao), 1, f);
-// 	printf("%c %lld %d %d\n", rc.status, rc.topoDaLista, rc.nroEstacoes, rc.nroParesEstacao);
-// }
