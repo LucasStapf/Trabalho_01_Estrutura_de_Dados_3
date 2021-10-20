@@ -26,7 +26,7 @@ int createFileBIN(char *csvName, char *binName); // ok
 int printFileBIN(char *binName); // ok
 
 void fillWithTrash(FILE *f, int numBytes);
-long findAvailableSpaceRegister(FILE *f, long topoDaPilha, long *byteAnterior, long *byteProximo, long numBytes);
+long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaPilha, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes);
 void printHeaderBIN(FILE *f);
 
 #endif

@@ -338,34 +338,62 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
   writeHeaderRegisterBIN(f, &hr);
 
   DataRegister r; // o que a gente le
-  LONG_8 nextByte = hr.topoDaLista;
+  // LONG_8 nextByte = hr.topoDaLista;
 
-  do
-  {
+  LONG_8 byteAnterior, byteProximo;
+  LONG_8 byteDisponivel = findAvailableSpaceRegister(f, hr.topoDaLista, &byteAnterior, &byteProximo, dr->tamanhoRegistro);
 
-    fseek(f, nextByte, SEEK_SET);
-    readDataRegisterBIN(f, &r);
-
-    if (r.tamanhoRegistro >= dr->tamanhoRegistro)
-    {
-      fseek(f, nextByte, SEEK_SET);
-      int tamanhoAntigo = dr->tamanhoRegistro;
-      dr->tamanhoRegistro = r.tamanhoRegistro;
-      writeDataRegisterBIN(f, dr);
-      fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
-      hr.topoDaLista = r.proxLista;
-      break;
-    }
-    else
-      nextByte = r.proxLista;
-
-  } while (nextByte != -1 && r.tamanhoRegistro < dr->tamanhoRegistro); // dr: o que a gente quer inserir
-
-  if (nextByte == -1)
-  {
+  if(byteDisponivel == -1) {
+    
     fseek(f, 0, SEEK_END);
     writeDataRegisterBIN(f, dr);
+
+  } else {
+    
+    if(byteAnterior == byteDisponivel) { // registro eh o topo da lista
+      
+      hr.topoDaLista = byteProximo;
+
+    } else { // nao eh topo da lista
+
+      fseek(f, byteAnterior, SEEK_SET);
+      readDataRegisterBIN(f, &r);
+      r.proxLista = byteProximo;
+      fseek(f, byteAnterior, SEEK_SET);
+      fwrite(&r.removido, sizeof(r.removido), 1, f);
+      fwrite(&r.tamanhoRegistro, sizeof(r.tamanhoRegistro), 1, f);
+      fwrite(&r.proxLista, sizeof(r.proxLista), 1, f);
+    }
+
+    fseek(f, byteDisponivel, SEEK_SET);
+    readDataRegisterBIN(f, &r);
+
+    int tamanhoAntigo = dr->tamanhoRegistro;
+    dr->tamanhoRegistro = r.tamanhoRegistro;
+    fseek(f, byteDisponivel, SEEK_SET);
+    writeDataRegisterBIN(f, dr);
+    fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
   }
+  // do
+  // {
+
+  //   fseek(f, nextByte, SEEK_SET);
+  //   readDataRegisterBIN(f, &r);
+
+  //   if (r.tamanhoRegistro >= dr->tamanhoRegistro)
+  //   {
+  //     fseek(f, nextByte, SEEK_SET);
+  //     int tamanhoAntigo = dr->tamanhoRegistro;
+  //     dr->tamanhoRegistro = r.tamanhoRegistro;
+  //     writeDataRegisterBIN(f, dr);
+  //     fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
+  //     hr.topoDaLista = r.proxLista;
+  //     break;
+  //   }
+  //   else
+  //     nextByte = r.proxLista;
+
+  // } while (nextByte != -1 && r.tamanhoRegistro < dr->tamanhoRegistro); // dr: o que a gente quer inserir
 
   fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
 
@@ -536,7 +564,7 @@ void fillWithTrash(FILE *f, int numBytes)
     fwrite(&trash, sizeof(char), 1, f);
 }
 
-long findAvailableSpaceRegister(FILE *f, long topoDaPilha, long *byteAnterior, long *byteProximo, long numBytes) {
+long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaPilha, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes) {
 	
   if(topoDaPilha == NULL_FIELD_INTEGER) return -1;
   
@@ -547,7 +575,7 @@ long findAvailableSpaceRegister(FILE *f, long topoDaPilha, long *byteAnterior, l
 
   do {
 
-    long byteAtual = ftell(f);
+    LONG_8 byteAtual = ftell(f);
 
 		fread(&dr.removido, sizeof(dr.removido), 1, f);
 		fread(&dr.tamanhoRegistro, sizeof(dr.tamanhoRegistro), 1, f);
