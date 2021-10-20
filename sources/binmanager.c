@@ -343,33 +343,22 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
   LONG_8 byteAnterior, byteProximo;
   LONG_8 byteDisponivel = findAvailableSpaceRegister(f, hr.topoDaLista, &byteAnterior, &byteProximo, dr->tamanhoRegistro);
 
-  if(byteDisponivel == -1) {
+  if(byteDisponivel == -1) { // registro escrito no final do arquivo
     
     fseek(f, 0, SEEK_END);
     writeDataRegisterBIN(f, dr);
 
   } else {
     
-    if(byteAnterior == byteDisponivel) { // registro eh o topo da lista
-      
-      hr.topoDaLista = byteProximo;
-
-    } else { // nao eh topo da lista
-
-      fseek(f, byteAnterior, SEEK_SET);
-      readDataRegisterBIN(f, &r);
-      r.proxLista = byteProximo;
-      fseek(f, byteAnterior, SEEK_SET);
-      fwrite(&r.removido, sizeof(r.removido), 1, f);
-      fwrite(&r.tamanhoRegistro, sizeof(r.tamanhoRegistro), 1, f);
-      fwrite(&r.proxLista, sizeof(r.proxLista), 1, f);
-    }
+    if(byteAnterior == byteDisponivel)  hr.topoDaLista = byteProximo; // registro topo da lista
+    else updateRemovedRegisterListBIN(f, byteAnterior, byteProximo);
 
     fseek(f, byteDisponivel, SEEK_SET);
     readDataRegisterBIN(f, &r);
 
     int tamanhoAntigo = dr->tamanhoRegistro;
     dr->tamanhoRegistro = r.tamanhoRegistro;
+
     fseek(f, byteDisponivel, SEEK_SET);
     writeDataRegisterBIN(f, dr);
     fillWithTrash(f, r.tamanhoRegistro - tamanhoAntigo);
@@ -600,13 +589,13 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaPilha, LONG_8 *byteAnterio
 
 /**
   - Function: updateRegisterStackBIN
-  - Description: Esta funcao atualiza a pilha de registros logicamente removidos alterando o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
+  - Description: Esta funcao atualiza a lista de registros logicamente removidos alterando o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
   - Parameters: 
     - f: arquivo binario.
     - byteAtual: Byte offset do registro que tera o campo 'proxLista' alterado.
     - byteProximo: Valor que sera salvo no campo 'proxLista' do registro passado.
 */
-void updateRegisterStackBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo) {
+void updateRemovedRegisterListBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo) {
 
   DataRegister dr;
   dr.proxLista = byteProximo;
