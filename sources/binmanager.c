@@ -464,6 +464,7 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
 
         char rem = '1';
         fwrite(&rem, sizeof(char), 1, f); // Altera o registro para logicamente removido nesta posicao.
+        
         fseek(f, sizeof(r.tamanhoRegistro), SEEK_CUR); // Pula campo tamanhoRegistro
         
         LONG_8 proxLista = hr.topoDaLista;
@@ -491,8 +492,11 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
           readDataRegisterBIN(f, &aux);
 
           fseek(f, byte, SEEK_SET);
+
+          int t_aux = r.tamanhoRegistro;
+          r.tamanhoRegistro = aux.tamanhoRegistro;
           writeDataRegisterBIN(f, &r);
-          fillWithTrash(f, aux.tamanhoRegistro - r.tamanhoRegistro);
+          fillWithTrash(f, aux.tamanhoRegistro - t_aux);
         }
       }
 
