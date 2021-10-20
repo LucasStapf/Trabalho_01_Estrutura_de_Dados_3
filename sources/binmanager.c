@@ -395,6 +395,11 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr)
   return 1;
 }
 
+void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao) {
+
+  
+}
+
 /**
   - Function: createFileBIN
   - Description: Esta funcao cria  do zero um arquivo de dados binario a partir de um arquivo CSV.
@@ -529,6 +534,40 @@ void fillWithTrash(FILE *f, int numBytes)
   char trash = MEMORY_TRASH;
   for (int i = 0; i < numBytes; i++)
     fwrite(&trash, sizeof(char), 1, f);
+}
+
+long findAvailableSpaceRegister(FILE *f, long topoDaPilha, long *byteAnterior, long *byteProximo, long numBytes) {
+	
+  if(topoDaPilha == NULL_FIELD_INTEGER) return -1;
+  
+  fseek(f, topoDaPilha, SEEK_SET);
+	DataRegister dr;
+
+  *byteAnterior = topoDaPilha;
+
+  do {
+
+    long byteAtual = ftell(f);
+
+		fread(&dr.removido, sizeof(dr.removido), 1, f);
+		fread(&dr.tamanhoRegistro, sizeof(dr.tamanhoRegistro), 1, f);
+		fread(&dr.proxLista, sizeof(dr.proxLista), 1, f);
+
+    *byteProximo = dr.proxLista;
+
+    if(dr.tamanhoRegistro >= numBytes) {
+
+      return byteAtual;
+
+    } else {
+      
+      fseek(f, dr.proxLista, SEEK_SET);
+      *byteAnterior = byteAtual;
+    }
+
+	} while (dr.proxLista != -1);
+
+  return -1;	
 }
 
 // void printHeaderBIN(FILE *f) {

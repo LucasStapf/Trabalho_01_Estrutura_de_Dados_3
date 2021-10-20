@@ -214,7 +214,59 @@ void insertDataTable(char *inputfilename, int number) {
 }
 
 void updateDataTable(char *inputfilename, int number) {
-  printf("update %s %d\n", inputfilename, number);
+	
+	char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
+
+  DataRegister dr_busca, dr_alteracao;
+	FILE *f = fopen(inputfilename, "rb+");
+	if (f == NULL) {
+    showMessage(FILE_ERROR);
+    return;
+  }
+  
+  for(int i = 0; i < number; i++) {
+    
+    setEmptyDataRegister(&dr_busca);
+    setEmptyDataRegister(&dr_alteracao);
+
+    fgets(str, MAX_SIZE_STR, stdin);
+    str[strlen(str) - 1] = '\0';
+
+    int n; // numero de campos
+    char *p = strtok_custom(str, ' ');
+    n = atoi(p);
+
+    for(int j = 0; j < n; j++) {
+      p = strtok_custom(NULL, ' ');
+      strcpy(fieldName, p);
+
+      p = strtok_custom(NULL, ' ');
+      strcpy(fieldValue, p);
+
+      fillFieldDataRegister(&dr_busca, fieldName, fieldValue);
+    }
+ 
+    fgets(str, MAX_SIZE_STR, stdin);
+    str[strlen(str) - 1] = '\0';
+
+    p = strtok_custom(str, ' ');
+    n = atoi(p);
+
+    for(int j = 0; j < n; j++) {
+      p = strtok_custom(NULL, ' ');
+      strcpy(fieldName, p);
+
+      p = strtok_custom(NULL, ' ');
+      strcpy(fieldValue, p);
+
+      fillFieldDataRegister(&dr_alteracao, fieldName, fieldValue);
+    }
+		
+    updateDataRegisterBIN(f, &dr_busca, &dr_alteracao);
+  }
+
+  fclose(f);
+
   binarioNaTela(inputfilename);
 }
 

@@ -20,12 +20,13 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr); // ok
 int findDataRegistersBIN(FILE *f, DataRegister *dr); // ok
 void deleteDataRegisterBIN(FILE *f, DataRegister *dr); // ok
 int insertDataRegisterBIN(FILE *f, DataRegister *dr);
+void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao);
 
 int createFileBIN(char *csvName, char *binName); // ok
 int printFileBIN(char *binName); // ok
 
 void fillWithTrash(FILE *f, int numBytes);
-
+long findAvailableSpaceRegister(FILE *f, long topoDaPilha, long *byteAnterior, long *byteProximo, long numBytes);
 void printHeaderBIN(FILE *f);
 
 #endif
