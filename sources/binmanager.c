@@ -419,6 +419,12 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
   hr.status = '0';
   writeHeaderRegisterBIN(f, &hr);
 
+  linkedlist nomesEstacoes;
+  createLinkedList(&nomesEstacoes);
+
+  linkedlist paresEstacoes;
+  createLinkedList(&paresEstacoes);
+
   linkedlist bytesOffsetUpdate;
   createLinkedList(&bytesOffsetUpdate);
 
@@ -485,7 +491,20 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
       addElementLinkedList(&bytesOffsetUpdate, b);
       fseek(f, nextByteOffset, SEEK_SET);
     }
+
+    addStringLinkedList(&nomesEstacoes, r.nomeEstacao);
+    addParEstacoesLinkedList(&paresEstacoes, r.codEstacao, r.codProxEstacao);
   }
+
+  hr.status = '1';
+  hr.nroEstacoes = nomesEstacoes.size;
+  hr.nroParesEstacao = paresEstacoes.size;
+
+  writeHeaderRegisterBIN(f, &hr);
+
+  deleteLinkedList(&nomesEstacoes);
+  deleteLinkedList(&paresEstacoes);
+  deleteLinkedList(&bytesOffsetUpdate);
 }
 
 /**
