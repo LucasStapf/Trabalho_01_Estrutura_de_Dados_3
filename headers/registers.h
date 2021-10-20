@@ -42,6 +42,7 @@ int sizeOfRegister(DataRegister dr); // ok
 int compareRegister(DataRegister dr1, DataRegister dr2); // ok
 void setEmptyDataRegister(DataRegister *dr); // ok
 void fillFieldDataRegister(DataRegister *dr, char *field, char *value); // ok
+void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem); // ok
 void printRegister(DataRegister dr); // ok
 
 #endif

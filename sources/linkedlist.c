@@ -226,6 +226,24 @@ int hasIntegerElementLinkedList(linkedlist *l, int n)
   return FALSE;
 }
 
+int hasLONG_8ElementLinkedList(linkedlist *l, LONG_8 n)
+{
+
+  node *node = l->head;
+
+  while (node != NULL)
+  {
+
+    LONG_8 *i = (LONG_8*) node->data;
+    if (*i == n)
+      return TRUE;
+    else
+      node = node->next;
+  }
+
+  return FALSE;
+}
+
 void printStringLinkedList(linkedlist l)
 {
 

@@ -123,6 +123,26 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
 }
 
 /**
+  - Function: copyDataRegister
+  - Description: Esta funcao copia os campos nao vazios do DataRegister de origem nos respectivos campos do DataRegister de destino.
+  - Parameters: 
+    - dr_destino: DataRegister que tera os campos alterados.
+    - dr_origem: DataRegister que tera os campos nao vazios copiados.
+*/
+void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
+  
+  if(dr_origem->codEstacao != EMPTY_FIELD_INTEGER) dr_destino->codEstacao = dr_origem->codEstacao;
+  if(dr_origem->codLinha != EMPTY_FIELD_INTEGER) dr_destino->codLinha = dr_origem->codLinha;
+  if(dr_origem->codProxEstacao != EMPTY_FIELD_INTEGER) dr_destino->codProxEstacao = dr_origem->codProxEstacao;
+  if(dr_origem->distProxEstacao != EMPTY_FIELD_INTEGER) dr_destino->distProxEstacao = dr_origem->distProxEstacao;
+  if(dr_origem->codLinhaIntegra != EMPTY_FIELD_INTEGER) dr_destino->codLinhaIntegra = dr_origem->codLinhaIntegra;
+  if(dr_origem->codEstIntegra != EMPTY_FIELD_INTEGER) dr_destino->codEstIntegra = dr_origem->codEstIntegra;
+
+  if(strcmp(dr_origem->nomeEstacao, EMPTY_FIELD_STRING) != 0) strcpy(dr_destino->nomeEstacao, dr_origem->nomeEstacao);
+  if(strcmp(dr_origem->nomeLinha, EMPTY_FIELD_STRING) != 0) strcpy(dr_destino->nomeLinha, dr_origem->nomeLinha);
+}
+
+/**
   - Function: printRegister
   - Description: Esta funcao imprime um registro na tela, com os campos sendo exibidos na seguinte ordem:
   - codEstacao | nomeEstacao | codLinha | nomeLinha | codProxEstacao | distProxEstacao | codLinhaIntegra | codEstIntegra
