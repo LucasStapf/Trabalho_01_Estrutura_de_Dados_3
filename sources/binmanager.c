@@ -464,6 +464,11 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
 
         char rem = '1';
         fwrite(&rem, sizeof(char), 1, f); // Altera o registro para logicamente removido nesta posicao.
+        fseek(f, sizeof(r.tamanhoRegistro), SEEK_CUR); // Pula campo tamanhoRegistro
+        
+        LONG_8 proxLista = hr.topoDaLista;
+        fwrite(&proxLista, sizeof(r.proxLista), 1, f);
+        hr.topoDaLista = byteOffset;
         
         LONG_8 byte, byteAnterior, byteProximo;
         byte = findAvailableSpaceRegister(f, hr.topoDaLista, &byteAnterior, &byteProximo, r.tamanhoRegistro);
