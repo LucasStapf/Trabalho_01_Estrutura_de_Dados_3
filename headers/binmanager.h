@@ -26,6 +26,6 @@ int printFileBIN(char *binName); // ok
 
 void fillWithTrash(FILE *f, int numBytes);
 
-void printHeaderBIN(FILE *f);
+void printHeaderBIN(HeaderRegister hr);
 
 #endif
