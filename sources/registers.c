@@ -1,11 +1,11 @@
 /**
-* Trabalho 01 - Estrutura de Dados III
-*
-* Integrantes do grupo:
-* 
-* Leonadro Hannas de Carvalho Santos  NUSP: 11800480
-* Lucas Carvalho Freiberger Stapf     NUSP: 11800559
-*/
+ * Trabalho 01 - Estrutura de Dados III
+ *
+ * Integrantes do grupo:
+ *
+ * Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+ * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,13 +15,14 @@
 /**
   - Function: sizeOfRegister
   - Description: Esta funcao calcula o tamanho de um registro de dados no arquivo binario.
-  - Note: O tamanho retornado nao eh o real tamanho do DataRegister em si, uma vez que a funcao contabiliza a presenca do pipe '|' no fim das strings, mesmo que no DataRegister em si nao tenha o pipe.
-  - Parameters: 
-    - dr: struct DataRegister
+  - Note: O tamanho retornado nao eh o real tamanho do DataRegister em si, uma vez que a funcao
+    contabiliza a presenca do pipe '|' no fim das strings, mesmo que no DataRegister em si nao tenha o pipe.
+    Os campos 'removido' e 'tamanhoRegistro' nao sao contabilizados.
+  - Parameters:
+    - dr: Struct DataRegister
   - Returns: Retorna o tamanho do registro no arquivo binario.
 */
-int sizeOfRegister(DataRegister dr)
-{
+int sizeOfRegister(DataRegister dr) {
 
   int size = (2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(char); // + 2: contabilizando o pipe '|'
   size += (6 * sizeof(int));
@@ -32,14 +33,16 @@ int sizeOfRegister(DataRegister dr)
 
 /**
   - Function: compareRegister
-  - Description: Esta funcao compara dois registros e verifica se os mesmos sao equivalentes. Campos vazios sao desconsiderados na comparacao.
-  - Parameters: 
-    - dr1: registro 1
-    - dr2: registro 2
-  - Returns: Retorna DIFFERENT_REGISTERS caso os registros sejam nao-equivalentes, e EQUIVALENT_REGISTERS caso contrario.
+  - Description: Esta funcao compara dois registros de dados e verifica se os mesmos sao equivalentes. 
+    Campos vazios e os campos 'removido', 'tamanhoRegistro' e 'proxLista' sao desconsiderados na comparacao.
+  - Parameters:
+    - dr1: registro de dados 1
+    - dr2: registro de dados 2
+  - Returns: 
+    - DIFFERENT_REGISTERS: Caso os registros sejam nao equivalentes.
+    - EQUIVALENT_REGISTERS: Caso os registros sejam equivalentes.
 */
-int compareRegister(DataRegister dr1, DataRegister dr2)
-{
+int compareRegister(DataRegister dr1, DataRegister dr2) {
 
   if (dr1.codEstacao != EMPTY_FIELD_INTEGER && dr2.codEstacao != EMPTY_FIELD_INTEGER && dr1.codEstacao != dr2.codEstacao)
     return DIFFERENT_REGISTERS;
@@ -73,12 +76,13 @@ int compareRegister(DataRegister dr1, DataRegister dr2)
 
 /**
   - Function: setEmptyDataRegister
-  - Description: Esta funcao inicializa todos os campos do DataRegister passado com valores vazios (EMPTY_FIELD_INTEGER ou EMPTY_FIELD_STRING).
-  - Parameters: 
+  - Description: Esta funcao inicializa todos os campos do DataRegister passado com
+    valores vazios (EMPTY_FIELD_INTEGER ou EMPTY_FIELD_STRING). Os campos 'removido',
+    'tamanhoRegistro' e 'proxLista' nao sao atualizados.
+  - Parameters:
     - dr: Registro que tera seus campos atualizados para vazio.
 */
-void setEmptyDataRegister(DataRegister *dr)
-{
+void setEmptyDataRegister(DataRegister *dr) {
 
   dr->codEstacao = EMPTY_FIELD_INTEGER;
   dr->codLinha = EMPTY_FIELD_INTEGER;
@@ -88,21 +92,18 @@ void setEmptyDataRegister(DataRegister *dr)
   dr->codEstIntegra = EMPTY_FIELD_INTEGER;
   strcpy(dr->nomeEstacao, EMPTY_FIELD_STRING);
   strcpy(dr->nomeLinha, EMPTY_FIELD_STRING);
-  // dr->nomeEstacao[0] = EMPTY_FIELD_STRING;
-  // dr->nomeLinha[0] = EMPTY_FIELD_STRING;
 }
 
 /**
   - Function: fillFieldDataRegister
   - Description: Esta funcao preenche um campo do DataRegister passado com base no nome do campo.
   - Note: Tanto o nome quando o valor do campo devem ser do tipo string(char*).
-  - Parameters: 
+  - Parameters:
     - dr: Registro que tera o campo atualizado.
     - field: Nome do campo a ser atualizado.
     - value: Valor do campo.
 */
-void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
-{
+void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
 
   if (strcmp("codEstacao", field) == 0) // Nao pode ser nulo
     dr->codEstacao = atoi(value);
@@ -124,34 +125,43 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value)
 
 /**
   - Function: copyDataRegister
-  - Description: Esta funcao copia os campos nao vazios do DataRegister de origem nos respectivos campos do DataRegister de destino.
-  - Parameters: 
+  - Description: Esta funcao copia os campos nao vazios do DataRegister de origem
+    nos respectivos campos do DataRegister de destino.
+  - Parameters:
     - dr_destino: DataRegister que tera os campos alterados.
     - dr_origem: DataRegister que tera os campos nao vazios copiados.
 */
 void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
-  
-  if(dr_origem->codEstacao != EMPTY_FIELD_INTEGER) dr_destino->codEstacao = dr_origem->codEstacao;
-  if(dr_origem->codLinha != EMPTY_FIELD_INTEGER) dr_destino->codLinha = dr_origem->codLinha;
-  if(dr_origem->codProxEstacao != EMPTY_FIELD_INTEGER) dr_destino->codProxEstacao = dr_origem->codProxEstacao;
-  if(dr_origem->distProxEstacao != EMPTY_FIELD_INTEGER) dr_destino->distProxEstacao = dr_origem->distProxEstacao;
-  if(dr_origem->codLinhaIntegra != EMPTY_FIELD_INTEGER) dr_destino->codLinhaIntegra = dr_origem->codLinhaIntegra;
-  if(dr_origem->codEstIntegra != EMPTY_FIELD_INTEGER) dr_destino->codEstIntegra = dr_origem->codEstIntegra;
 
-  if(strcmp(dr_origem->nomeEstacao, EMPTY_FIELD_STRING) != 0) strcpy(dr_destino->nomeEstacao, dr_origem->nomeEstacao);
-  if(strcmp(dr_origem->nomeLinha, EMPTY_FIELD_STRING) != 0) strcpy(dr_destino->nomeLinha, dr_origem->nomeLinha);
+  if (dr_origem->codEstacao != EMPTY_FIELD_INTEGER)
+    dr_destino->codEstacao = dr_origem->codEstacao;
+  if (dr_origem->codLinha != EMPTY_FIELD_INTEGER)
+    dr_destino->codLinha = dr_origem->codLinha;
+  if (dr_origem->codProxEstacao != EMPTY_FIELD_INTEGER)
+    dr_destino->codProxEstacao = dr_origem->codProxEstacao;
+  if (dr_origem->distProxEstacao != EMPTY_FIELD_INTEGER)
+    dr_destino->distProxEstacao = dr_origem->distProxEstacao;
+  if (dr_origem->codLinhaIntegra != EMPTY_FIELD_INTEGER)
+    dr_destino->codLinhaIntegra = dr_origem->codLinhaIntegra;
+  if (dr_origem->codEstIntegra != EMPTY_FIELD_INTEGER)
+    dr_destino->codEstIntegra = dr_origem->codEstIntegra;
+
+  if (strcmp(dr_origem->nomeEstacao, EMPTY_FIELD_STRING) != 0)
+    strcpy(dr_destino->nomeEstacao, dr_origem->nomeEstacao);
+  if (strcmp(dr_origem->nomeLinha, EMPTY_FIELD_STRING) != 0)
+    strcpy(dr_destino->nomeLinha, dr_origem->nomeLinha);
 }
 
 /**
   - Function: printRegister
   - Description: Esta funcao imprime um registro na tela, com os campos sendo exibidos na seguinte ordem:
-  - codEstacao | nomeEstacao | codLinha | nomeLinha | codProxEstacao | distProxEstacao | codLinhaIntegra | codEstIntegra
+    codEstacao | nomeEstacao | codLinha | nomeLinha | codProxEstacao | distProxEstacao |
+    codLinhaIntegra | codEstIntegra
   - Note: Campos NULOS (NULL_FIELD_INTEGER ou NULL_FIELD_STRING) serao exibidos como 'NULO'.
-  - Parameters: 
+  - Parameters:
     - dr: Registro a ser exibido.
 */
-void printRegister(DataRegister dr)
-{
+void printRegister(DataRegister dr) {
 
   printf("%d ", dr.codEstacao);  //
   printf("%s ", dr.nomeEstacao); //

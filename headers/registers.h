@@ -12,6 +12,9 @@
 
 #include "constants.h"
 
+/**
+ * HeaderRegister: Struct responsavel por guardar valores do cabecalho do arquivo binario.
+ */
 typedef struct {
 	
 	char status;
@@ -21,7 +24,9 @@ typedef struct {
 
 } HeaderRegister;
 
-
+/**
+ * DataRegister: Struct responsavel por guardar os valores de um registro de dados do arquivo binario.
+ */
 typedef struct {
 	
 	char removido;
@@ -38,11 +43,11 @@ typedef struct {
 
 } DataRegister;
 
-int sizeOfRegister(DataRegister dr); // ok
-int compareRegister(DataRegister dr1, DataRegister dr2); // ok
-void setEmptyDataRegister(DataRegister *dr); // ok
-void fillFieldDataRegister(DataRegister *dr, char *field, char *value); // ok
-void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem); // ok
-void printRegister(DataRegister dr); // ok
+int sizeOfRegister(DataRegister dr);
+int compareRegister(DataRegister dr1, DataRegister dr2);
+void setEmptyDataRegister(DataRegister *dr);
+void fillFieldDataRegister(DataRegister *dr, char *field, char *value);
+void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem);
+void printRegister(DataRegister dr);
 
 #endif
