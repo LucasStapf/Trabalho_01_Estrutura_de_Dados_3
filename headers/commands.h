@@ -14,7 +14,7 @@ enum command {
   create = 1, selectData, selectDataWhere, deleteData, insertData, updateData
 };
 
-int cmdSelector();
+void cmdSelector();
 
 void createTable(char *inputfilename, char *outputfilename);
 void selectDataTable(char *inputfilename);
@@ -26,8 +26,6 @@ void updateDataTable(char *inputfilename, int number);
 void binarioNaTela(char *nomeArquivoBinario);
 
 char* strtok_custom(char* str, char delimitador);
-
-
 
 #endif
 
