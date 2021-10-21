@@ -1,11 +1,11 @@
 /**
-* Trabalho 01 - Estrutura de Dados III
-*
-* Integrantes do grupo:
-* 
-* Leonardo Hannas de Carvalho Santos  NUSP: 11800480
-* Lucas Carvalho Freiberger Stapf     NUSP: 11800559
-*/
+ * Trabalho 01 - Estrutura de Dados III
+ *
+ * Integrantes do grupo:
+ *
+ * Leonardo Hannas de Carvalho Santos  NUSP: 11800480
+ * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +16,6 @@
 #include "../headers/linkedlist.h"
 #include "../headers/constants.h"
 
-int main()
-{
+int main() {
   cmdSelector();
 }
