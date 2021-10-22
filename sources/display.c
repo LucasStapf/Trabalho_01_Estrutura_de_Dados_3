@@ -11,14 +11,13 @@
 #include "../headers/display.h"
 #include "../headers/constants.h"
 
+
 /**
-  - Function: showMessage
-  - Description: Esta funcao printa na tela uma mensagem de acordo com o parametro passado.
-  - Parameters:
-    - cod: Codigo da mensagem.
-  - Returns:
-    - cod: O proprio codigo passado
-*/
+ * @brief Esta funcao printa na tela uma mensagem de acordo com o parametro passado.
+ * 
+ * @param cod Codigo da mensagem
+ * @return int 
+ */
 int showMessage(int cod) {
 
     switch(cod) {

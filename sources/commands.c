@@ -18,9 +18,11 @@
 #include "../headers/display.h"
 
 /**
-  - Function: cmdSelector
-  - Description: Funcao responsavel por ler e realizar um determinado comando passado no stdin.
-*/
+ * @brief Funcao responsavel por ler e realizar um determinado comando passado no stdin.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void cmdSelector() {
 
   char inputstr[MAX_SIZE_STR];
@@ -81,34 +83,42 @@ void cmdSelector() {
 }
 
 /**
-  - Function: createTable
-  - Description: Esta funcao simula o comando CREATE TABLE de um SQL.
-  - Parameters:
-    - inputfilename: Nome do arquivo csv de leitura dos dados.
-    - outputfilename: Nome do arquivo binario a ser gerado.
-*/
+ * @brief Esta funcao simula o comando CREATE TABLE de um SQL.
+ * 
+ * @param inputfilename Nome do arquivo csv de leitura dos dados.
+ * @param outputfilename Nome do arquivo binario a ser gerado.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void createTable(char *inputfilename, char *outputfilename) {
   showMessage(createFileBIN(inputfilename, outputfilename));
   binarioNaTela(outputfilename);
 }
 
+
 /**
-  - Function: selectDataTable
-  - Description: Esta funcao simula o comando SELECT de um SQL.
-  - Parameters:
-    - inputfilename: Nome do arquivo binario para leitura dos dados.
-*/
+ * @brief Esta funcao simula o comando SELECT de um SQL.
+ * 
+ * @param inputfilename Nome do arquivo binario para leitura dos dados.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void selectDataTable(char *inputfilename) {
   showMessage(printFileBIN(inputfilename));
 }
 
+
 /**
-  - Function: selectDataTable
-  - Description: Esta funcao simula o comando SELECT WHERE de um SQL.
-  - Parameters:
-    - inputfilename: Nome do arquivo binario para leitura dos dados.
-    - number: Numero de campos utilizados para realizar a busca.
-*/
+ * @brief Esta funcao simula o comando SELECT WHERE de um SQL.
+ * 
+ * @param inputfilename Nome do arquivo binario para leitura dos dados. 
+ * @param number Numero de campos utilizados para realizar a busca. 
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void selectDataWhereTable(char *inputfilename, int number) {
 
   char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
@@ -140,13 +150,16 @@ void selectDataWhereTable(char *inputfilename, int number) {
   fclose(f);
 }
 
+
 /**
-  - Function: deleteDataTable
-  - Description: Esta funcao simula o comando DELETE de um SQL.
-  - Parameters:
-    - inputfilename: Nome do arquivo binario para leitura dos dados.
-    - number: Numero de delecoes que serao realizadas.
-*/
+ * @brief Esta funcao simula o comando DELETE de um SQL.
+ * 
+ * @param inputfilename Nome do arquivo binario para leitura dos dados.
+ * @param number Numero de delecoes que serao realizadas.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void deleteDataTable(char *inputfilename, int number) {
 
   char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
@@ -188,13 +201,16 @@ void deleteDataTable(char *inputfilename, int number) {
   binarioNaTela(inputfilename);
 }
 
+
 /**
-  - Function: insertDataTable
-  - Description: Esta funcao simula o comando INSERT INTO de um SQL.
-  - Parameters:
-    - inputfilename: Nome do arquivo binario para leitura dos dados.
-    - number: Numero de insercoes que serao realizadas.
-*/
+ * @brief Esta funcao simula o comando INSERT INTO de um SQL.
+ * 
+ * @param inputfilename Nome do arquivo binario para leitura dos dados.
+ * @param number Numero de insercoes que serao realizadas.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void insertDataTable(char *inputfilename, int number) {
 
   FILE *f = fopen(inputfilename, "rb+");
@@ -249,13 +265,16 @@ void insertDataTable(char *inputfilename, int number) {
   binarioNaTela(inputfilename);
 }
 
+
 /**
-  - Function: updateDataTable
-  - Description: Esta funcao simula o comando UPDATE de um SQL.
-  - Parameters:
-    - inputfilename: Nome do arquivo binario para leitura dos dados.
-    - number: Numero de atualizacoes que serao realizadas.
-*/
+ * @brief Esta funcao simula o comando UPDATE de um SQL.
+ * 
+ * @param inputfilename Nome do arquivo binario para leitura dos dados.
+ * @param number Numero de atualizacoes que serao realizadas.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void updateDataTable(char *inputfilename, int number) {
 
   char str[MAX_SIZE_STR], fieldName[MAX_SIZE_STR], fieldValue[MAX_SIZE_STR];
@@ -315,12 +334,12 @@ void updateDataTable(char *inputfilename, int number) {
   binarioNaTela(inputfilename);
 }
 
+
 /**
-  - Function: binarioNaTela
-  - Description: Funcao de comparacao no run.codes - Fornecida
-  - Parameters:
-    - nomeArquivoBinario: Nome do arquivo binario.
-*/
+ * @brief Funcao de comparacao no run.codes - Fornecida
+ * 
+ * @param nomeArquivoBinario Nome do arquivo binario.
+ */
 void binarioNaTela(char *nomeArquivoBinario) {
 
   unsigned long i, cs;
@@ -350,14 +369,17 @@ void binarioNaTela(char *nomeArquivoBinario) {
 }
 
 /**
-  - Function: strtok_custom
-  - Description: Esta funcao possui a mesma funcionalidade da funcao original stktok da string.h, porem 
-  a string nao eh quebrada no delimitador se estiver entre aspas duplas, sendo quebrado o bloco inteiro
-  de caracteres dentro das aspas.
-  - Parameters:
-    - inputfilename: Nome do arquivo binario para leitura dos dados.
-    - number: Numero de delecoes que serao realizadas.
-*/
+ * @brief Esta funcao possui a mesma funcionalidade da funcao original stktok da string.h, 
+ * porem a string nao eh quebrada no delimitador se estiver entre aspas duplas, sendo 
+ * quebrado o bloco inteiro de caracteres dentro das aspas.
+ * 
+ * @param str string a ser quebrada.
+ * @param delimitador char, baseado no qual eh feita a quebra da string. 
+ * @return ponteiro para o inicio do token valido (pedaco da string).
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 char *strtok_custom(char *str, char delimitador) {
 
   static char *pi, *pf;

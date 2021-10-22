@@ -13,7 +13,7 @@
 #include "constants.h"
 
 /**
- * HeaderRegister: Struct responsavel por guardar valores do cabecalho do arquivo binario.
+ * @brief HeaderRegister: Struct responsavel por guardar valores do cabecalho do arquivo binario.
  */
 typedef struct {
 	
@@ -24,8 +24,9 @@ typedef struct {
 
 } HeaderRegister;
 
+
 /**
- * DataRegister: Struct responsavel por guardar os valores de um registro de dados do arquivo binario.
+ * @brief DataRegister: Struct responsavel por guardar os valores de um registro de dados do arquivo binario.
  */
 typedef struct {
 	

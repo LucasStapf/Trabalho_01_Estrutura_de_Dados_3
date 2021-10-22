@@ -17,13 +17,17 @@
 #include "../headers/registers.h"
 
 /**
-  - Function: writeHeaderRegisterBIN
-  - Description: Esta funcao escreve o registro de cabecalho no inicio do arquivo binario a partir de um HeaderRegister.
-  - Note: O arquivo ja deve estar aberto para a escrita no modo binario. O campo status eh atualizado por ultimo.
-  - Parameters:
-    - f: arquivo onde serao salvos os dados.
-    - hr: registro que tera os dados salvos no arquivo.
-*/
+ * @brief Esta funcao escreve o registro de cabecalho no inicio do arquivo 
+ * binario a partir de um HeaderRegister. 
+ * OBS: O arquivo ja deve estar aberto para a escrita no modo binario.
+ * O campo status eh atualizado por ultimo.
+ * 
+ * @param f Arquivo onde sera escrito o cabecalho.
+ * @param hr Registro do cabecalho a ser escrito no arquivo.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void writeHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
 
   fseek(f, SEEK_TOPO_LISTA, SEEK_SET);
@@ -35,13 +39,16 @@ void writeHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
 }
 
 /**
-  - Function: readHeaderRegisterBIN
-  - Description: Esta funcao le o registro de cabecalho no inicio do arquivo binario e salva os dados em um HeaderRegister.
-  - Note: O arquivo ja deve estar aberto para a leitura no modo binario.
-  - Parameters:
-    - f: arquivo onde serao salvos os dados.
-    - dr: registro que tera os dados lidos do arquivo.
-*/
+ * @brief Esta funcao le o registro de cabecalho no inicio do arquivo binario e salva
+ * os dados em um HeaderRegister.
+ * OBS: O arquivo ja deve estar aberto para a leitura no modo binario.
+ * 
+ * @param f Arquivo onde serao salvos os dados.
+ * @param hr Registro que tera os dados lidos do arquivo.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void readHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
 
   fseek(f, SEEK_STATUS, SEEK_SET);
@@ -53,13 +60,16 @@ void readHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
 }
 
 /**
-  - Function: writeDataRegisterBIN
-  - Description: Esta funcao escreve os dados referente a um DataRegister em um arquivo binario. O processo ocorre na posicao corrente de escrita do arquivo.
-  - Note: O arquivo ja deve estar aberto para a escrita no modo binario.
-  - Parameters:
-    - f: arquivo onde serao salvos os dados.
-    - dr: registro que tera os dados salvos no arquivo .
-*/
+ * @brief Esta funcao escreve os dados referente a um DataRegister em um arquivo binario. 
+ * O processo ocorre na posicao corrente de escrita do arquivo.
+ * OBS: O arquivo ja deve estar aberto para a escrita no modo binario.
+ * 
+ * @param f Arquivo onde serao salvos os dados.
+ * @param dr Registro que tera os dados salvos no arquivo.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void writeDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   char fd = FIELD_DELIMITER;
@@ -81,17 +91,18 @@ void writeDataRegisterBIN(FILE *f, DataRegister *dr) {
 }
 
 /**
-  - Function: readDataRegisterBIN
-  - Description: Esta função realiza a leitura de 1 registro do arquivo binario a partir da posicao corrente de leitura do arquivo.
-  - Note: O arquivo ja deve estar aberto para a leitura no modo binario.
-  - Parameters:
-    - f: FILE do arquivo binário de leitura.
-    - dr: Variável onde serao salvos os dados do registro (se este nao estiver removido).
-  - Returns:
-    - END_OF_FILE_BIN caso o final do arquivo seja alcancado.
-    - REMOVED caso o registro lido esteja logicamente removido.
-    - NOT_REMOVED caso tenha ocorrido uma leitura com sucesso.
-*/
+ * @brief Esta função realiza a leitura de 1 registro do arquivo binario a partir da
+ * posicao corrente de leitura do arquivo.
+ * OBS: O arquivo ja deve estar aberto para leitura no modo binario.
+ * 
+ * @param f FILE do arquivo binario de leitura.
+ * @param dr Variável onde serao salvos os dados do registro (se este nao estiver removido).
+ * @return END_OF_FILE_BIN caso o final do arquivo seja alcancado, REMOVED caso o registro 
+ * lido esteja logicamente removido ou NOT_REMOVED caso tenha ocorrido uma leitura com sucesso.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 int readDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   int ret = fread(&dr->removido, sizeof(dr->removido), 1, f);
@@ -151,16 +162,18 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr) {
 }
 
 /**
-  - Function: findDataRegistersBIN
-  - Description: Esta funcao busca registros no arquivo de dados BIN com base nos campos nao vazios do DataRegister passado. Quando um registro eh encontrado, ele sera printado na tela.
-  - Note: O arquivo ja deve estar aberto para a leitura no modo binario.
-  - Parameters:
-    - f: FILE do arquivo binário de leitura.
-    - dr: Variavel que contem os campos de busca do registro.
-  - Returns:
-    - REGISTER_NOT_FOUND caso nao tenha encontrado o registro.
-    - REGISTER_FOUND caso o registro tenha sido encontrado.
-*/
+ * @brief Esta funcao busca registros no arquivo de dados BIN com base nos campos nao vazios
+ * do DataRegister passado. Quando um registro eh encontrado, ele sera printado na tela.
+ * OBS: O arquivo ja deve estar aberto para a leitura no modo binario.
+ * 
+ * @param f FILE do arquivo binario de leitura.
+ * @param dr Variavel que contem os campos de busca do registro.
+ * @return REGISTER_NOT_FOUND caso nao tenha encontrado o registro ou REGISTER_FOUND caso o 
+ * registro tenha sido encontrado. 
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 int findDataRegistersBIN(FILE *f, DataRegister *dr) {
 
   int found = REGISTER_NOT_FOUND;
@@ -189,13 +202,16 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr) {
 }
 
 /**
-  - Function: deleteDataRegisterBIN
-  - Description: Esta funcao tenta removir um registro do arquivo binario com base nos campos nao vazios do DataRegister passado.
-  - Note: O arquivo ja deve estar aberto para a leitura e escrita no modo binario.
-  - Parameters:
-    - f: FILE do arquivo binário de leitura.
-    - dr: Variavel que contem os campos de busca do registro.
-*/
+ * @brief Esta funcao tenta removir um registro do arquivo binario com base nos campos 
+ * nao vazios do DataRegister passado.
+ * OBS: O arquivo ja deve estar aberto para a leitura e escrita no modo binario.
+ * 
+ * @param f FILE do arquivo binario de leitura.
+ * @param dr Variavel que contem os campos de busca do registro.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   HeaderRegister hr;
@@ -252,16 +268,20 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
   deleteLinkedList(&paresEstacoes);
 }
 
+
 /**
-  - Function: insertDataRegisterBIN
-  - Description: Esta funcao adiciona um novo registro no arquivo binario. O novo registro sobrescrevera algum
-  registro logicamente removido se possivel ou entao sera escrito no final do arquivo.
-  - Note: O arquivo ja deve estar aberto para a leitura e escrita no modo binario.
-  - Parameters:
-    - f: FILE do arquivo binário de leitura.
-    - dr: Variavel que contem os campos de busca do registro.
-*/
-int insertDataRegisterBIN(FILE *f, DataRegister *dr) {
+ * @brief Esta funcao adiciona um novo registro no arquivo binario. O novo registro 
+ * sobrescrevera algum registro logicamente removido se possivel ou entao sera 
+ * escrito no final do arquivo.
+ * OBS: O arquivo ja deve estar aberto para a leitura e escrita no modo binario.
+ * 
+ * @param f FILE do arquivo binario de leitura.
+ * @param Variavel que contem os campos de busca do registro. 
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
+void insertDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   HeaderRegister hr;
   readHeaderRegisterBIN(f, &hr);
@@ -314,21 +334,21 @@ int insertDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   deleteLinkedList(&nomesEstacoes);
   deleteLinkedList(&paresDistintosEstacoes);
-
-  return 1;
 }
 
 /**
-  - Function: updateDataRegisterBIN
-  - Description: Esta funcao atualiza registros no arquivo binario. A busca pelos registro a serem alterados
-  utiliza os campos nao vazios do DataRegister dr_busca e as alteracoes a serem feitas estao salvas nos campos
-  nao vazios do DataRegister dr_alteracao.
-  - Note: O arquivo ja deve estar aberto para a leitura e escrita no modo binario.
-  - Parameters:
-    - f: FILE do arquivo binario.
-    - dr_busca: Variavel que contem os campos de busca do registro.
-    - dr_alteracao: Variavel que contem os novos dados a serem salvos nos registros.
-*/
+ * @brief Esta funcao atualiza registros no arquivo binario. A busca pelos registro 
+ * a serem alterados utiliza os campos nao vazios do DataRegister dr_busca e as 
+ * alteracoes a serem feitas estao salvas nos campos nao vazios do DataRegister dr_alteracao.
+ * OBS: O arquivo ja deve estar aberto para a leitura e escrita no modo binario.
+ * 
+ * @param f FILE do arquivo binario.
+ * @param dr_busca Variavel que contem os campos de busca do registro.
+ * @param dr_alteracao Variavel que contem os novos dados a serem salvos nos registros.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao) {
 
   HeaderRegister hr;
@@ -437,15 +457,17 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
 }
 
 /**
-  - Function: createFileBIN
-  - Description: Esta funcao cria  do zero um arquivo de dados binario a partir de um arquivo CSV.
-  - Parameters:
-    - csvName: nome do arquivo csv.
-    - binName: nome do arquivo binario.
-  - Returns:
-    - FILE_ERROR: Caso os arquivos nao possam ser abertos.
-    - SUCCESS: Caso a operacao chegue ao fim.
-*/
+ * @brief Esta funcao cria  do zero um arquivo de dados binario a partir de um 
+ * arquivo CSV.
+ * 
+ * @param csvName Nome do arquivo csv.
+ * @param binName Nome do arquivo binario.
+ * @return FILE_ERROR caso os arquivos nao possam ser abertos ou SUCCESS caso a 
+ * operacao chegue ao fim.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 int createFileBIN(char *csvName, char *binName) {
 
   FILE *fin = fopen(csvName, "r");
@@ -500,16 +522,18 @@ int createFileBIN(char *csvName, char *binName) {
   return SUCCESS;
 }
 
+
 /**
-  - Function: printFileBIN
-  - Description: Esta funcao printa todos os registro nao removidos do arquivo binario.
-  - Parameters:
-    - binName: nome do arquivo binario.
-  - Returns:
-    - FILE_ERROR: Caso o arquivo nao possa ser aberto.
-    - REGISTER_NOT_FOUND:  Caso nenhum registro tenha sido encontrado.
-    - REGISTER_FOUND: Caso ao menos 1 registro tenha sido encontrado.
-*/
+ * @brief  Esta funcao printa todos os registros nao removidos do arquivo binario.
+ * 
+ * @param binName Nome do arquivo binario.
+ * @return FILE_ERROR (caso o arquivo nao possa ser aberto),
+ *         REGISTER_NOT_FOUND (caso nenhum registro tenha sido encontrado),
+ *         REGISTER_FOUND (caso ao menos 1 registro tenha sido encontrado).
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 int printFileBIN(char *binName) {
 
   FILE *f = fopen(binName, "rb");
@@ -541,32 +565,42 @@ int printFileBIN(char *binName) {
   return found;
 }
 
+
 /**
-  - Function: fillWithTrash
-  - Description: Esta funcao escreve o caracter MEMORY_TRASH na posicao corrente de escrita do arquivo binario.
-  - Note: O arquivo ja deve estar aberto para escrita no modo binario.
-  - Parameters:
-    - f: Arquivo binario.
-    - numBytes: Numero de MEMORY_TRASH que serao escritos.
-*/
+ * @brief Esta funcao escreve o caracter MEMORY_TRASH na posicao corrente de escrita 
+ * do arquivo binario.
+ * OBS: O arquivo ja deve estar aberto para escrita no modo binario.
+ * 
+ * @param f FILE do arquivo binario (arquivo ja deve estar aberto).
+ * @param numBytes Numero de MEMORY_TRASH que serao escritos.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void fillWithTrash(FILE *f, int numBytes) {
   char trash = MEMORY_TRASH;
   for(int i = 0; i < numBytes; i++) fwrite(&trash, sizeof(char), 1, f);
 }
 
+
 /**
-  - Function: findAvailableSpaceRegister
-  - Description: Esta funcao percorre a lista de arquivos logicamente removidos em busca de um registro que possua tamanho maior ou igual ao tamanho buscado.
-  - Note: O arquivo ja deve estar aberto para a leitura no modo binario.
-  - Parameters:
-    - f: Arquivo binario.
-    - topoDaLista: Primeiro registro logicamente removido da lista.
-    - byteAnterior: Byte offset do registro removido anterior (da lista) ao registro removido que atende as necessidades buscas.
-    - byteProximo: Bye offset do  proximo registro removido (da lista) ao registro removido que atende as necessidas buscadas.
-  - Returns:
-    - -1: Caso nenhum registro removido possua espaco suficiente.
-    - byte offset: Retorna o byte offset do registro que possue tamanho suficiente.
-*/
+ * @brief Esta funcao percorre a lista de arquivos logicamente removidos em 
+ * busca de um registro que possua tamanho maior ou igual ao tamanho buscado.
+ * OBS: O arquivo ja deve estar aberto para a leitura no modo binario. 
+ * 
+ * @param f FILE do arquivo binario (arquivo ja deve estar aberto).
+ * @param topoDaLista Primeiro registro logicamente removido da lista.
+ * @param byteAnterior Byte offset do registro removido anterior (da lista) 
+ * ao registro removido que atende as necessidades buscas.
+ * @param byteProximo Byte offset do  proximo registro removido (da lista) ao 
+ * registro removido que atende as necessidas buscadas.
+ * @param numBytes Tamanho do espaco requerido.
+ * @return -1, caso nenhum registro removido possua espaco suficiente, ou o byte offset
+ * do registro que possui tamanho suficiente.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes) {
 
   if(topoDaLista == NULL_FIELD_INTEGER) return -1;
@@ -597,15 +631,19 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterio
   return -1;
 }
 
+
 /**
-  - Function: updateRemovedRegisterListBIN
-  - Description: Esta funcao atualiza a lista de registros logicamente removidos alterando o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
-  - Note: O arquivo ja deve estar aberto para a leitura/escrita no modo binario.
-  - Parameters:
-    - f: Arquivo binario.
-    - byteAtual: Byte offset do registro que tera o campo 'proxLista' alterado.
-    - byteProximo: Valor que sera salvo no campo 'proxLista' do registro passado.
-*/
+ * @brief Esta funcao atualiza a lista de registros logicamente removidos alterando 
+ * o byte offset salvo no campo 'proxLista' do registro removido passado (byteAtual).
+ * OBS: O arquivo ja deve estar aberto para a leitura/escrita no modo binario.
+ 
+ * @param f FILE do arquivo binario (arquivo ja deve estar aberto).
+ * @param byteAtual Byte offset do registro que tera o campo 'proxLista' alterado.
+ * @param byteProximo Valor que sera salvo no campo 'proxLista' do registro passado.
+ *
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void updateRemovedRegisterListBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo) {
   
   DataRegister dr;

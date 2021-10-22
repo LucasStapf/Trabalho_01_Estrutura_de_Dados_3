@@ -14,28 +14,36 @@
 #include "../headers/constants.h"
 #include "../headers/registers.h"
 
+
+
 /**
-  - Function: jumpHeaderCSV
-  - Description: Esta funcao ignora o cabecalho de dados e posiciona a leitura do arquivo para a primeira linha de dados (se houver).
-  - Note: O arquivo ja deve estar aberto para a leitura.
-  - Parameters:
-    - f: FILE do arquivo de leitura (arquivo ja deve estar aberto)
-*/
+ * @brief Esta funcao ignora o cabecalho de dados e posiciona a 
+ * leitura do arquivo para a primeira linha de dados (se houver).
+ * OBS: O arquivo ja deve estar aberto para a leitura.
+ * 
+ * @param f FILE do arquivo de leitura (arquivo ja deve estar aberto).
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void jumpHeaderCSV(FILE *f) {
   char c = fgetc(f);
   while(c != '\n') c = fgetc(f);
 }
 
+
 /**
-  - Function: readFieldCSV
-  - Description: Esta funcao realiza a leitura de um campo
-  do arquivo de dados CSV a partir da posicao corrente de leitura do arquivo, salvando
-  o dado como uma string. Campos NULOS (sem dados armazenados) sao representados pelo caracter '\0'.
-  - Note: O arquivo ja deve estar aberto para a leitura.
-  - Parameters:
-    - f: FILE do arquivo de leitura (arquivo ja deve estar aberto)
-    - str: Variavel onde sera salva a string lida.
-*/
+ * @brief Esta funcao realiza a leitura de um campo do arquivo de dados CSV 
+ * a partir da posicao corrente de leitura do arquivo, salvando o dado como 
+ * uma string. Campos NULOS (sem dados armazenados) possuem valor NULL_FIELD_STRING.
+ * OBS: O arquivo ja deve estar aberto para a leitura.
+ * 
+ * @param f FILE do arquivo de leitura (arquivo ja deve estar aberto).
+ * @param str Variavel onde sera salva a string lida.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void readFieldCSV(FILE *f, char *str) {
 
   char c;
@@ -61,14 +69,19 @@ void readFieldCSV(FILE *f, char *str) {
 }
 
 /**
-  - Function: readLineCSV
-  - Description: Esta funcao faz a leitura de uma linha inteira
-  do arquivo CSV de entrada (partindo da posicao corrente de leitura) e salva os dados ja convertidos em um DataRegister. Campos do tipo (int) ou (long) que sao NULOS sao salvos com o valor -1, enquanto que campos do tipo (char *) que sao NULOS sao identificados com o  o primeiro caracter valendo '\0'.
-  - Note: O arquivo ja deve estar aberto para a leitura.
-  - Parameters:
-    - f: FILE do arquivo de leitura (arquivo ja deve estar aberto)
-    - dr: DataRegister onde serao armazenados os dados lidos do arquivo
-*/
+ * @brief Esta funcao faz a leitura de uma linha inteira do arquivo CSV de entrada
+ * (partindo da posicao corrente de leitura) e salva os dados ja convertidos em um 
+ * DataRegister. Campos do tipo (int) ou (LONG_8) que sao NULOS sao salvos com o 
+ * valor NULL_FIELD_INTEGER, enquanto que campos do tipo (char *) que sao NULOS sao
+ * identificados como NULL_FIELD_STRING. 
+ * OBS: O arquivo ja deve estar aberto para a leitura.
+ * 
+ * @param f FILE do arquivo de leitura (arquivo ja deve estar aberto).
+ * @param dr DataRegister onde serao armazenados os dados lidos do arquivo.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void readLineCSV(FILE *f, DataRegister *dr) {
 
   char str[MAX_SIZE_STR];

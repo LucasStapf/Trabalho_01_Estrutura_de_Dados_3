@@ -10,8 +10,18 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
+/**
+ * @brief Constantes para identificao dos comandos digitados.
+ */
 enum command {
-  create = 1, selectData, selectDataWhere, deleteData, insertData, updateData
+
+  create = 1, 
+  selectData, 
+  selectDataWhere, 
+  deleteData, 
+  insertData, 
+  updateData
+
 };
 
 void cmdSelector();

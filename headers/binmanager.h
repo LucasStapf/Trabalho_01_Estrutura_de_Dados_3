@@ -19,7 +19,7 @@ void writeDataRegisterBIN(FILE *f, DataRegister *dr);
 int readDataRegisterBIN(FILE *f, DataRegister *dr);
 int findDataRegistersBIN(FILE *f, DataRegister *dr);
 void deleteDataRegisterBIN(FILE *f, DataRegister *dr);
-int insertDataRegisterBIN(FILE *f, DataRegister *dr);
+void insertDataRegisterBIN(FILE *f, DataRegister *dr);
 void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao);
 
 int createFileBIN(char *csvName, char *binName);

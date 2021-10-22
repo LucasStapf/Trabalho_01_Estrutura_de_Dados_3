@@ -12,16 +12,19 @@
 #include <string.h>
 #include "../headers/registers.h"
 
+
 /**
-  - Function: sizeOfRegister
-  - Description: Esta funcao calcula o tamanho de um registro de dados no arquivo binario.
-  - Note: O tamanho retornado nao eh o real tamanho do DataRegister em si, uma vez que a funcao
-    contabiliza a presenca do pipe '|' no fim das strings, mesmo que no DataRegister em si nao tenha o pipe.
-    Os campos 'removido' e 'tamanhoRegistro' nao sao contabilizados.
-  - Parameters:
-    - dr: Struct DataRegister
-  - Returns: Retorna o tamanho do registro no arquivo binario.
-*/
+ * @brief Esta funcao calcula o tamanho de um registro de dados no arquivo binario.
+ * OBS: O tamanho retornado nao eh o real tamanho do DataRegister em si, uma vez que a funcao
+ * contabiliza a presenca FIELD_DELIMITER no DataRegister mesmo que o dr em si nao tenha o FIELD_DELIMITER.
+ * O tamanho tambem nao leva em conta os campos 'removido' e 'tamanhoRegistro'.
+ * 
+ * @param dr Registro de dados que tera o tamanho calculado.
+ * @return int Tamanho do registro de dados.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf 
+ */
 int sizeOfRegister(DataRegister dr) {
 
   int size = (2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(char); // + 2: contabilizando o pipe '|'
@@ -31,17 +34,18 @@ int sizeOfRegister(DataRegister dr) {
   return size;
 }
 
+
 /**
-  - Function: compareRegister
-  - Description: Esta funcao compara dois registros de dados e verifica se os mesmos sao equivalentes. 
-    Campos vazios e os campos 'removido', 'tamanhoRegistro' e 'proxLista' sao desconsiderados na comparacao.
-  - Parameters:
-    - dr1: registro de dados 1
-    - dr2: registro de dados 2
-  - Returns: 
-    - DIFFERENT_REGISTERS: Caso os registros sejam nao equivalentes.
-    - EQUIVALENT_REGISTERS: Caso os registros sejam equivalentes.
-*/
+ * @brief Esta funcao compara dois registros de dados e verifica se os mesmos sao equivalentes. 
+  Campos vazios e os campos 'removido', 'tamanhoRegistro' e 'proxLista' sao desconsiderados na comparacao.
+ * 
+ * @param dr1 Registro de dados 1.
+ * @param dr2 Registro de dados 2.
+ * @return DIFFERENT_REGISTERS caso os registros nao sejam equivalentes, EQUIVALENT_REGISTERS caso contrario.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf 
+ */
 int compareRegister(DataRegister dr1, DataRegister dr2) {
 
   if (dr1.codEstacao != EMPTY_FIELD_INTEGER && dr2.codEstacao != EMPTY_FIELD_INTEGER && dr1.codEstacao != dr2.codEstacao)
@@ -74,14 +78,17 @@ int compareRegister(DataRegister dr1, DataRegister dr2) {
   return EQUIVALENT_REGISTERS;
 }
 
+
 /**
-  - Function: setEmptyDataRegister
-  - Description: Esta funcao inicializa todos os campos do DataRegister passado com
-    valores vazios (EMPTY_FIELD_INTEGER ou EMPTY_FIELD_STRING). Os campos 'removido',
-    'tamanhoRegistro' e 'proxLista' nao sao atualizados.
-  - Parameters:
-    - dr: Registro que tera seus campos atualizados para vazio.
-*/
+ * @brief Esta funcao inicializa todos os campos do DataRegister passado com
+ * valores vazios (EMPTY_FIELD_INTEGER ou EMPTY_FIELD_STRING). Os campos
+ * 'removido', 'tamanhoRegistro' e 'proxLista' nao sao atualizados.
+ * 
+ * @param dr Registro que tera seus campos atualizados para vazio.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void setEmptyDataRegister(DataRegister *dr) {
 
   dr->codEstacao = EMPTY_FIELD_INTEGER;
@@ -94,15 +101,18 @@ void setEmptyDataRegister(DataRegister *dr) {
   strcpy(dr->nomeLinha, EMPTY_FIELD_STRING);
 }
 
+
 /**
-  - Function: fillFieldDataRegister
-  - Description: Esta funcao preenche um campo do DataRegister passado com base no nome do campo.
-  - Note: Tanto o nome quando o valor do campo devem ser do tipo string(char*).
-  - Parameters:
-    - dr: Registro que tera o campo atualizado.
-    - field: Nome do campo a ser atualizado.
-    - value: Valor do campo.
-*/
+ * @brief Esta funcao preenche um campo do DataRegister passado com base no nome do campo.
+ * OBS:  Tanto o nome quando o valor do campo devem ser do tipo string (char*).
+ * 
+ * @param dr Registro que tera o campo atualizado.
+ * @param field Nome do campo a ser atualizado.
+ * @param value Valor do campo.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
 
   if (strcmp("codEstacao", field) == 0) // Nao pode ser nulo
@@ -123,14 +133,17 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
     strcmp(value, "NULO") != 0 ? strcpy(dr->nomeLinha, value) : strcpy(dr->nomeLinha, NULL_FIELD_STRING);
 }
 
+
 /**
-  - Function: copyDataRegister
-  - Description: Esta funcao copia os campos nao vazios do DataRegister de origem
-    nos respectivos campos do DataRegister de destino.
-  - Parameters:
-    - dr_destino: DataRegister que tera os campos alterados.
-    - dr_origem: DataRegister que tera os campos nao vazios copiados.
-*/
+ * @brief Esta funcao copia os campos nao vazios do DataRegister de origem
+ * nos respectivos campos do DataRegister de destino.
+ * 
+ * @param dr_destino DataRegister que tera os campos alterados.
+ * @param dr_origem DataRegister que tera os campos nao vazios copiados.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf 
+ */
 void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
 
   if (dr_origem->codEstacao != EMPTY_FIELD_INTEGER)
@@ -152,15 +165,18 @@ void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
     strcpy(dr_destino->nomeLinha, dr_origem->nomeLinha);
 }
 
+
 /**
-  - Function: printRegister
-  - Description: Esta funcao imprime um registro na tela, com os campos sendo exibidos na seguinte ordem:
-    codEstacao | nomeEstacao | codLinha | nomeLinha | codProxEstacao | distProxEstacao |
-    codLinhaIntegra | codEstIntegra
-  - Note: Campos NULOS (NULL_FIELD_INTEGER ou NULL_FIELD_STRING) serao exibidos como 'NULO'.
-  - Parameters:
-    - dr: Registro a ser exibido.
-*/
+ * @brief Esta funcao imprime um registro na tela, com os campos sendo exibidos na seguinte ordem:
+ *        codEstacao | nomeEstacao | codLinha | nomeLinha | codProxEstacao | distProxEstacao |
+ *        codLinhaIntegra | codEstIntegra
+ * OBS: Campos NULOS (NULL_FIELD_INTEGER ou NULL_FIELD_STRING) serao exibidos como 'NULO'.
+ * 
+ * @param dr Registro a ser exibido.
+ * 
+ * @author Leonadro Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
 void printRegister(DataRegister dr) {
 
   printf("%d ", dr.codEstacao);  //
