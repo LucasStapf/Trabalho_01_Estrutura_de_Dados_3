@@ -193,7 +193,7 @@ void deleteDataTable(char *inputfilename, int number) {
       fillFieldDataRegister(&dr, fieldName, fieldValue);
     }
 
-    deleteDataRegisterBIN(f, &dr);
+    if(showMessage(deleteDataRegisterBIN(f, &dr)) == FILE_NOT_CONSISTENT) break;
   }
 
   fclose(f);
@@ -257,7 +257,7 @@ void insertDataTable(char *inputfilename, int number) {
     dr.tamanhoRegistro = sizeOfRegister(dr);
     dr.proxLista = NULL_FIELD_INTEGER;
 
-    insertDataRegisterBIN(f, &dr);
+    if(showMessage(insertDataRegisterBIN(f, &dr)) == FILE_NOT_CONSISTENT) break;
   }
 
   fclose(f);
@@ -326,7 +326,7 @@ void updateDataTable(char *inputfilename, int number) {
       fillFieldDataRegister(&dr_alteracao, fieldName, fieldValue);
     }
 
-    updateDataRegisterBIN(f, &dr_busca, &dr_alteracao);
+    if(showMessage(updateDataRegisterBIN(f, &dr_busca, &dr_alteracao)) == FILE_NOT_CONSISTENT) break;
   }
 
   fclose(f);
