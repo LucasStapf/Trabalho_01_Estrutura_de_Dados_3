@@ -3,7 +3,7 @@
 *
 * Integrantes do grupo:
 * 
-* Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+* Leonardo Hannas de Carvalho Santos  NUSP: 11800480
 * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
 */
 
@@ -12,22 +12,21 @@
 
 #include "registers.h"
 
-void writeHeaderRegisterBIN(FILE *f, HeaderRegister *rc); // ok
-void readHeaderRegisterBIN(FILE *f, HeaderRegister *rc); // ok
+void writeHeaderRegisterBIN(FILE *f, HeaderRegister *rc);
+void readHeaderRegisterBIN(FILE *f, HeaderRegister *rc);
 
-void writeDataRegisterBIN(FILE *f, DataRegister *dr); // ok
-int readDataRegisterBIN(FILE *f, DataRegister *dr); // ok
-int findDataRegistersBIN(FILE *f, DataRegister *dr); // ok
-void deleteDataRegisterBIN(FILE *f, DataRegister *dr); // ok
-int insertDataRegisterBIN(FILE *f, DataRegister *dr);
+void writeDataRegisterBIN(FILE *f, DataRegister *dr);
+int readDataRegisterBIN(FILE *f, DataRegister *dr);
+int findDataRegistersBIN(FILE *f, DataRegister *dr);
+void deleteDataRegisterBIN(FILE *f, DataRegister *dr);
+void insertDataRegisterBIN(FILE *f, DataRegister *dr);
 void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao);
 
-int createFileBIN(char *csvName, char *binName); // ok
-int printFileBIN(char *binName); // ok
+int createFileBIN(char *csvName, char *binName);
+int printFileBIN(char *binName); 
 
 void fillWithTrash(FILE *f, int numBytes);
 long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes);
 void updateRemovedRegisterListBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo);
-void printHeaderBIN(FILE *f);
 
 #endif
