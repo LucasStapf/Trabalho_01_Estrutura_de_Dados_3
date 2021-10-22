@@ -31,6 +31,9 @@
 #define DIFFERENT_REGISTERS 4
 #define EQUIVALENT_REGISTERS 5
 
+#define CONSISTENT_FILE 6
+#define FILE_NOT_CONSISTENT 7
+
 // Definidos a partir do SEEK_SET.
 #define SEEK_STATUS 0
 #define SEEK_TOPO_LISTA 1
