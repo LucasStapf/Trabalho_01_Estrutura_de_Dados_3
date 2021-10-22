@@ -17,6 +17,9 @@
  * 
  * @param cod Codigo da mensagem
  * @return int 
+ * 
+ * @author Leonardo Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
  */
 int showMessage(int cod) {
 

@@ -3,7 +3,7 @@
 *
 * Integrantes do grupo:
 * 
-* Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+* Leonardo Hannas de Carvalho Santos  NUSP: 11800480
 * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
 */
 

@@ -3,7 +3,7 @@
  *
  * Integrantes do grupo:
  *
- * Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+ * Leonardo Hannas de Carvalho Santos  NUSP: 11800480
  * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
  */
 
@@ -25,7 +25,7 @@
  * @param f Arquivo onde sera escrito o cabecalho.
  * @param hr Registro do cabecalho a ser escrito no arquivo.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void writeHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
@@ -46,7 +46,7 @@ void writeHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
  * @param f Arquivo onde serao salvos os dados.
  * @param hr Registro que tera os dados lidos do arquivo.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void readHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
@@ -67,7 +67,7 @@ void readHeaderRegisterBIN(FILE *f, HeaderRegister *hr) {
  * @param f Arquivo onde serao salvos os dados.
  * @param dr Registro que tera os dados salvos no arquivo.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void writeDataRegisterBIN(FILE *f, DataRegister *dr) {
@@ -100,7 +100,7 @@ void writeDataRegisterBIN(FILE *f, DataRegister *dr) {
  * @return END_OF_FILE_BIN caso o final do arquivo seja alcancado, REMOVED caso o registro 
  * lido esteja logicamente removido ou NOT_REMOVED caso tenha ocorrido uma leitura com sucesso.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 int readDataRegisterBIN(FILE *f, DataRegister *dr) {
@@ -171,7 +171,7 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr) {
  * @return REGISTER_NOT_FOUND caso nao tenha encontrado o registro ou REGISTER_FOUND caso o 
  * registro tenha sido encontrado. 
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 int findDataRegistersBIN(FILE *f, DataRegister *dr) {
@@ -209,7 +209,7 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr) {
  * @param f FILE do arquivo binario de leitura.
  * @param dr Variavel que contem os campos de busca do registro.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
@@ -278,7 +278,7 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
  * @param f FILE do arquivo binario de leitura.
  * @param Variavel que contem os campos de busca do registro. 
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void insertDataRegisterBIN(FILE *f, DataRegister *dr) {
@@ -346,7 +346,7 @@ void insertDataRegisterBIN(FILE *f, DataRegister *dr) {
  * @param dr_busca Variavel que contem os campos de busca do registro.
  * @param dr_alteracao Variavel que contem os novos dados a serem salvos nos registros.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao) {
@@ -465,7 +465,7 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
  * @return FILE_ERROR caso os arquivos nao possam ser abertos ou SUCCESS caso a 
  * operacao chegue ao fim.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 int createFileBIN(char *csvName, char *binName) {
@@ -531,7 +531,7 @@ int createFileBIN(char *csvName, char *binName) {
  *         REGISTER_NOT_FOUND (caso nenhum registro tenha sido encontrado),
  *         REGISTER_FOUND (caso ao menos 1 registro tenha sido encontrado).
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 int printFileBIN(char *binName) {
@@ -574,7 +574,7 @@ int printFileBIN(char *binName) {
  * @param f FILE do arquivo binario (arquivo ja deve estar aberto).
  * @param numBytes Numero de MEMORY_TRASH que serao escritos.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void fillWithTrash(FILE *f, int numBytes) {
@@ -598,7 +598,7 @@ void fillWithTrash(FILE *f, int numBytes) {
  * @return -1, caso nenhum registro removido possua espaco suficiente, ou o byte offset
  * do registro que possui tamanho suficiente.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterior, LONG_8 *byteProximo, long numBytes) {
@@ -641,7 +641,7 @@ long findAvailableSpaceRegister(FILE *f, LONG_8 topoDaLista, LONG_8 *byteAnterio
  * @param byteAtual Byte offset do registro que tera o campo 'proxLista' alterado.
  * @param byteProximo Valor que sera salvo no campo 'proxLista' do registro passado.
  *
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void updateRemovedRegisterListBIN(FILE *f, LONG_8 byteAtual, LONG_8 byteProximo) {

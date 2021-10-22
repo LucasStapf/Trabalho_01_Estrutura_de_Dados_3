@@ -18,7 +18,7 @@
  *
  * @param l Lista encadeada a ser inicializada.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void createLinkedList(linkedlist *l) {
@@ -32,7 +32,7 @@ void createLinkedList(linkedlist *l) {
  * 
  * @param l Lista encadeada a ser apagada.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void deleteLinkedList(linkedlist *l) {
@@ -54,7 +54,7 @@ void deleteLinkedList(linkedlist *l) {
  * @param data Elemento generico a ser adicionado.
  * @return TRUE caso o elemento tenha sido adicionado com sucesso e FALSE caso contrario. 
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 int addElementLinkedList(linkedlist *l, void *data) {
@@ -111,7 +111,7 @@ int hasNextElementLinkedList(linkedlist *l)
  * @param l Lista onde a string sera adicionada.
  * @param str String a ser adicionada.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void addStringLinkedList(linkedlist *l, char *str) {
@@ -168,7 +168,7 @@ void addStringLinkedList(linkedlist *l, char *str) {
  * @param codEstacao Codigo da estacao (x).
  * @param codProxEstacao Codigo da proxima estacao (y).
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void addParEstacoesLinkedList(linkedlist *l, int codEstacao, int codProxEstacao) {
@@ -244,7 +244,7 @@ int hasIntegerElementLinkedList(linkedlist *l, int n) {
  * @param n Numero a ser verificado.
  * @return TRUE caso o numero esteja presente, FALSE caso contrario. 
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 int hasLONG_8ElementLinkedList(linkedlist *l, LONG_8 n) {

@@ -3,7 +3,7 @@
  *
  * Integrantes do grupo:
  *
- * Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+ * Leonardo Hannas de Carvalho Santos  NUSP: 11800480
  * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
  */
 
@@ -20,7 +20,7 @@
 /**
  * @brief Funcao responsavel por ler e realizar um determinado comando passado no stdin.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void cmdSelector() {
@@ -88,7 +88,7 @@ void cmdSelector() {
  * @param inputfilename Nome do arquivo csv de leitura dos dados.
  * @param outputfilename Nome do arquivo binario a ser gerado.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void createTable(char *inputfilename, char *outputfilename) {
@@ -102,7 +102,7 @@ void createTable(char *inputfilename, char *outputfilename) {
  * 
  * @param inputfilename Nome do arquivo binario para leitura dos dados.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void selectDataTable(char *inputfilename) {
@@ -116,7 +116,7 @@ void selectDataTable(char *inputfilename) {
  * @param inputfilename Nome do arquivo binario para leitura dos dados. 
  * @param number Numero de campos utilizados para realizar a busca. 
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void selectDataWhereTable(char *inputfilename, int number) {
@@ -157,7 +157,7 @@ void selectDataWhereTable(char *inputfilename, int number) {
  * @param inputfilename Nome do arquivo binario para leitura dos dados.
  * @param number Numero de delecoes que serao realizadas.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void deleteDataTable(char *inputfilename, int number) {
@@ -208,7 +208,7 @@ void deleteDataTable(char *inputfilename, int number) {
  * @param inputfilename Nome do arquivo binario para leitura dos dados.
  * @param number Numero de insercoes que serao realizadas.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void insertDataTable(char *inputfilename, int number) {
@@ -272,7 +272,7 @@ void insertDataTable(char *inputfilename, int number) {
  * @param inputfilename Nome do arquivo binario para leitura dos dados.
  * @param number Numero de atualizacoes que serao realizadas.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void updateDataTable(char *inputfilename, int number) {
@@ -377,7 +377,7 @@ void binarioNaTela(char *nomeArquivoBinario) {
  * @param delimitador char, baseado no qual eh feita a quebra da string. 
  * @return ponteiro para o inicio do token valido (pedaco da string).
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 char *strtok_custom(char *str, char delimitador) {

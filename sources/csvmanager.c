@@ -3,7 +3,7 @@
  *
  * Integrantes do grupo:
  *
- * Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+ * Leonardo Hannas de Carvalho Santos  NUSP: 11800480
  * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
  */
 
@@ -23,7 +23,7 @@
  * 
  * @param f FILE do arquivo de leitura (arquivo ja deve estar aberto).
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void jumpHeaderCSV(FILE *f) {
@@ -41,7 +41,7 @@ void jumpHeaderCSV(FILE *f) {
  * @param f FILE do arquivo de leitura (arquivo ja deve estar aberto).
  * @param str Variavel onde sera salva a string lida.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void readFieldCSV(FILE *f, char *str) {
@@ -79,7 +79,7 @@ void readFieldCSV(FILE *f, char *str) {
  * @param f FILE do arquivo de leitura (arquivo ja deve estar aberto).
  * @param dr DataRegister onde serao armazenados os dados lidos do arquivo.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void readLineCSV(FILE *f, DataRegister *dr) {

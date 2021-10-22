@@ -3,7 +3,7 @@
  *
  * Integrantes do grupo:
  *
- * Leonadro Hannas de Carvalho Santos  NUSP: 11800480
+ * Leonardo Hannas de Carvalho Santos  NUSP: 11800480
  * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
  */
 
@@ -22,7 +22,7 @@
  * @param dr Registro de dados que tera o tamanho calculado.
  * @return int Tamanho do registro de dados.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf 
  */
 int sizeOfRegister(DataRegister dr) {
@@ -43,7 +43,7 @@ int sizeOfRegister(DataRegister dr) {
  * @param dr2 Registro de dados 2.
  * @return DIFFERENT_REGISTERS caso os registros nao sejam equivalentes, EQUIVALENT_REGISTERS caso contrario.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf 
  */
 int compareRegister(DataRegister dr1, DataRegister dr2) {
@@ -86,7 +86,7 @@ int compareRegister(DataRegister dr1, DataRegister dr2) {
  * 
  * @param dr Registro que tera seus campos atualizados para vazio.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void setEmptyDataRegister(DataRegister *dr) {
@@ -110,7 +110,7 @@ void setEmptyDataRegister(DataRegister *dr) {
  * @param field Nome do campo a ser atualizado.
  * @param value Valor do campo.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
@@ -141,7 +141,7 @@ void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
  * @param dr_destino DataRegister que tera os campos alterados.
  * @param dr_origem DataRegister que tera os campos nao vazios copiados.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf 
  */
 void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
@@ -174,7 +174,7 @@ void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem) {
  * 
  * @param dr Registro a ser exibido.
  * 
- * @author Leonadro Hannas de Carvalho Santos
+ * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
 void printRegister(DataRegister dr) {
