@@ -602,7 +602,7 @@ int printFileBIN(char *binName) {
 int statusFileBIN(HeaderRegister hr) {
 
   if(hr.status == '1') return CONSISTENT_FILE;
-  else FILE_NOT_CONSISTENT;
+  else return FILE_NOT_CONSISTENT;
 }
 
 /**
