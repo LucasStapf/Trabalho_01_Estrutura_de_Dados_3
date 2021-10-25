@@ -16,6 +16,7 @@
 #define FALSE 1
 
 #define SUCCESS 0
+#define ERROR -1
 
 #define MAX_SIZE_STR 200
 

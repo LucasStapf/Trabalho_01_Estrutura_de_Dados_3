@@ -400,7 +400,7 @@ int updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alte
     if(compareRegister(r, *dr_busca) == EQUIVALENT_REGISTERS && hasLONG_8ElementLinkedList(&bytesOffsetUpdate, byteOffset) == FALSE) {
 
       LONG_8 *b = (LONG_8*) malloc(sizeof(LONG_8)); // Guarda o byte offset de onde o registro sera atualizado
-      if (b == NULL) return;
+      if (b == NULL) return ERROR;
 
       int tamanhoAntigo = r.tamanhoRegistro;
       copyDataRegister(&r, dr_alteracao);
