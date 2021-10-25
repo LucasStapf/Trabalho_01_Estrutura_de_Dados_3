@@ -34,7 +34,7 @@ void cmdSelector() {
   int cmd;
   int number;
 
-  if(inputstr[strlen(inputstr) - 1] == '\n') inputstr[strlen(inputstr) - 1] = '\0'; // Tira o '\n' se houver.
+  eraseCRLF(inputstr);
 
   str = strtok(inputstr, " ");
   cmd = atoi(str);
@@ -135,7 +135,7 @@ void selectDataWhereTable(char *inputfilename, int number) {
   for(int i = 0; i < number; i++) {
 
     fgets(str, MAX_SIZE_STR, stdin);
-    if (str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
+    eraseCRLF(str);
 
     char *p = strtok_custom(str, ' ');
     strcpy(fieldName, p);
@@ -176,7 +176,7 @@ void deleteDataTable(char *inputfilename, int number) {
     setEmptyDataRegister(&dr);
 
     fgets(str, MAX_SIZE_STR, stdin);
-    if (str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
+    eraseCRLF(str);
 
     int n; // numero de campos
     char *p = strtok_custom(str, ' ');
@@ -193,7 +193,7 @@ void deleteDataTable(char *inputfilename, int number) {
       fillFieldDataRegister(&dr, fieldName, fieldValue);
     }
 
-    deleteDataRegisterBIN(f, &dr);
+    if(showMessage(deleteDataRegisterBIN(f, &dr)) == FILE_NOT_CONSISTENT) break;
   }
 
   fclose(f);
@@ -227,7 +227,7 @@ void insertDataTable(char *inputfilename, int number) {
   for(int i = 0; i < number; i++) {
 
     fgets(str, MAX_SIZE_STR, stdin);
-    if (str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
+    eraseCRLF(str);
 
     p = strtok_custom(str, ' '); // codEstacao
     fillFieldDataRegister(&dr, "codEstacao", p);
@@ -257,7 +257,7 @@ void insertDataTable(char *inputfilename, int number) {
     dr.tamanhoRegistro = sizeOfRegister(dr);
     dr.proxLista = NULL_FIELD_INTEGER;
 
-    insertDataRegisterBIN(f, &dr);
+    if(showMessage(insertDataRegisterBIN(f, &dr)) == FILE_NOT_CONSISTENT) break;
   }
 
   fclose(f);
@@ -292,7 +292,7 @@ void updateDataTable(char *inputfilename, int number) {
     setEmptyDataRegister(&dr_alteracao);
 
     fgets(str, MAX_SIZE_STR, stdin);
-    str[strlen(str) - 1] = '\0';
+    eraseCRLF(str);
 
     int n; // numero de campos
     char *p = strtok_custom(str, ' ');
@@ -310,7 +310,7 @@ void updateDataTable(char *inputfilename, int number) {
     }
 
     fgets(str, MAX_SIZE_STR, stdin);
-    if (str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0';
+    eraseCRLF(str);
 
     p = strtok_custom(str, ' ');
     n = atoi(p);
@@ -326,7 +326,7 @@ void updateDataTable(char *inputfilename, int number) {
       fillFieldDataRegister(&dr_alteracao, fieldName, fieldValue);
     }
 
-    updateDataRegisterBIN(f, &dr_busca, &dr_alteracao);
+    if(showMessage(updateDataRegisterBIN(f, &dr_busca, &dr_alteracao)) == FILE_NOT_CONSISTENT) break;
   }
 
   fclose(f);
@@ -421,4 +421,18 @@ char *strtok_custom(char *str, char delimitador) {
       return pi;
     }
   }
+}
+
+/**
+ * @brief Remove os caracteres '\\r' (CR) e '\\n' (LF) da string.
+ * 
+ * @param str String de entrada.
+ * 
+ * @author Leonardo Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
+void eraseCRLF(char *str) {
+  
+  if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0'; // Tira o '\n' se houver.
+  if(str[strlen(str) - 1] == '\r') str[strlen(str) - 1] = '\0'; // Tira o '\r' se houver.
 }

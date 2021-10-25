@@ -176,6 +176,11 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr) {
  */
 int findDataRegistersBIN(FILE *f, DataRegister *dr) {
 
+  HeaderRegister hr;
+  readHeaderRegisterBIN(f, &hr);
+
+  if(statusFileBIN(hr) == FILE_NOT_CONSISTENT) return FILE_NOT_CONSISTENT;
+
   int found = REGISTER_NOT_FOUND;
   fseek(f, SEEK_FIRST_REGISTER, SEEK_SET); // Volta para primeiro registro do arquivo.
 
@@ -212,11 +217,14 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr) {
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
+int deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   HeaderRegister hr;
 
   readHeaderRegisterBIN(f, &hr);
+
+  if(statusFileBIN(hr) == FILE_NOT_CONSISTENT) return FILE_NOT_CONSISTENT;
+
   hr.status = '0';
   writeHeaderRegisterBIN(f, &hr);
 
@@ -266,6 +274,8 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   deleteLinkedList(&nomesEstacoes);
   deleteLinkedList(&paresEstacoes);
+
+  return SUCCESS;
 }
 
 
@@ -281,10 +291,13 @@ void deleteDataRegisterBIN(FILE *f, DataRegister *dr) {
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-void insertDataRegisterBIN(FILE *f, DataRegister *dr) {
+int insertDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   HeaderRegister hr;
   readHeaderRegisterBIN(f, &hr);
+
+  if(statusFileBIN(hr) == FILE_NOT_CONSISTENT) return FILE_NOT_CONSISTENT;
+
   hr.status = '0';
   writeHeaderRegisterBIN(f, &hr);
 
@@ -334,6 +347,8 @@ void insertDataRegisterBIN(FILE *f, DataRegister *dr) {
 
   deleteLinkedList(&nomesEstacoes);
   deleteLinkedList(&paresDistintosEstacoes);
+
+  return SUCCESS;
 }
 
 /**
@@ -349,10 +364,13 @@ void insertDataRegisterBIN(FILE *f, DataRegister *dr) {
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao) {
+int updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alteracao) {
 
   HeaderRegister hr;
   readHeaderRegisterBIN(f, &hr);
+
+  if(statusFileBIN(hr) == FILE_NOT_CONSISTENT) return FILE_NOT_CONSISTENT;
+
   hr.status = '0';
   writeHeaderRegisterBIN(f, &hr);
 
@@ -382,7 +400,7 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
     if(compareRegister(r, *dr_busca) == EQUIVALENT_REGISTERS && hasLONG_8ElementLinkedList(&bytesOffsetUpdate, byteOffset) == FALSE) {
 
       LONG_8 *b = (LONG_8*) malloc(sizeof(LONG_8)); // Guarda o byte offset de onde o registro sera atualizado
-      if (b == NULL) return;
+      if (b == NULL) return ERROR;
 
       int tamanhoAntigo = r.tamanhoRegistro;
       copyDataRegister(&r, dr_alteracao);
@@ -454,6 +472,8 @@ void updateDataRegisterBIN(FILE *f, DataRegister *dr_busca, DataRegister *dr_alt
   deleteLinkedList(&nomesEstacoes);
   deleteLinkedList(&paresEstacoes);
   deleteLinkedList(&bytesOffsetUpdate);
+
+  return SUCCESS;
 }
 
 /**
@@ -541,8 +561,12 @@ int printFileBIN(char *binName) {
 
   int found = REGISTER_NOT_FOUND;
 
+  HeaderRegister hr;
+  readHeaderRegisterBIN(f, &hr);
+
+  if(statusFileBIN(hr) == FILE_NOT_CONSISTENT) return FILE_NOT_CONSISTENT;
+
   DataRegister dr;
-  HeaderRegister rc;
   fseek(f, SEEK_FIRST_REGISTER, SEEK_SET);
 
   int ret;
@@ -565,6 +589,21 @@ int printFileBIN(char *binName) {
   return found;
 }
 
+/**
+ * @brief Verifica se o status do arquivo binario eh consistente ou nao atraves do registro de
+ * cabecalho.
+ * 
+ * @param hr Registro de cabecalho do arquivo binario.
+ * @return CONSISTENT_FILE se o arquivo esta consiste e FILE_NOT_CONSISTENT caso contrario.
+ * 
+ * @author Leonardo Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
+int statusFileBIN(HeaderRegister hr) {
+
+  if(hr.status == '1') return CONSISTENT_FILE;
+  else return FILE_NOT_CONSISTENT;
+}
 
 /**
  * @brief Esta funcao escreve o caracter MEMORY_TRASH na posicao corrente de escrita 

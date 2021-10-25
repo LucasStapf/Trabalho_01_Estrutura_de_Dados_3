@@ -16,6 +16,7 @@
 #define FALSE 1
 
 #define SUCCESS 0
+#define ERROR -1
 
 #define MAX_SIZE_STR 200
 
@@ -30,6 +31,9 @@
 
 #define DIFFERENT_REGISTERS 4
 #define EQUIVALENT_REGISTERS 5
+
+#define CONSISTENT_FILE 6
+#define FILE_NOT_CONSISTENT 7
 
 // Definidos a partir do SEEK_SET.
 #define SEEK_STATUS 0

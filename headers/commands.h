@@ -36,6 +36,7 @@ void updateDataTable(char *inputfilename, int number);
 void binarioNaTela(char *nomeArquivoBinario);
 
 char* strtok_custom(char* str, char delimitador);
+void eraseCRLF(char *str);
 
 #endif
 

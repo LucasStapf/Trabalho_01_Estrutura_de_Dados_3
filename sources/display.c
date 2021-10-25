@@ -15,8 +15,8 @@
 /**
  * @brief Esta funcao printa na tela uma mensagem de acordo com o parametro passado.
  * 
- * @param cod Codigo da mensagem
- * @return int 
+ * @param cod Codigo da mensagem.
+ * @return Retorna o proprio codigo passado.
  * 
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
@@ -31,6 +31,10 @@ int showMessage(int cod) {
 
     case REGISTER_NOT_FOUND:
         printf("Registro inexistente.");
+        break;
+
+    case FILE_NOT_CONSISTENT:
+        printf("Falha no processamento do arquivo.");
         break;
 
     default:
